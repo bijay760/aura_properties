@@ -1,5 +1,5 @@
 <!-- resources/views/emails/property/registered.blade.php -->
-@extends('Email.layouts.master')
+
 
 @section('title', 'Login Alert - Aura Properties')
 
