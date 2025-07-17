@@ -43,7 +43,7 @@ class LoginAlertEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Email.login_alert',
+            view: 'email.login_alert',
             with: [
                 'name' => $this->name,
                 'email' => $this->email,
