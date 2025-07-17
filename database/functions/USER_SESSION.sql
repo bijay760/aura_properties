@@ -1,0 +1,27 @@
+DROP FUNCTION IF EXISTS USER_SESSION;
+DELIMITER $$
+CREATE FUNCTION `USER_SESSION`(
+    `DATA` JSON
+) RETURNS JSON
+BEGIN
+
+    DECLARE V_SYSDATE DATETIME(6);
+    DECLARE V_INFO JSON;
+
+    DECLARE V_SESSION_ID CHAR(64);
+
+
+    DO APP_INIT();
+    SET V_SYSDATE = SYSDATE(6);
+    SET V_SESSION_ID = JSON_VALUE(DATA, '$.session_id');
+
+    SELECT JSON_SET(DATA, '$.session_id', `session_id`, '$.user_id', `user_id`)
+    INTO V_INFO
+    FROM sessions
+    WHERE session_id COLLATE utf8mb4_unicode_ci = V_SESSION_ID COLLATE utf8mb4_unicode_ci;
+
+    SET @userSession = V_INFO;
+    RETURN APP_RETURN(true, 1037, V_INFO);
+
+END$$
+DELIMITER ;
