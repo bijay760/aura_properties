@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\loginRequest;
+use App\Http\Requests\LoginRequest;
 use App\Repositories\Contracts\AuthInterface;
-use App\Repositories\Contracts\loginInterface;
 
 class LoginController extends Controller
 {
