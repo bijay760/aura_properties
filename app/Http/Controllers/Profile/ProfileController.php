@@ -26,7 +26,7 @@ class ProfileController extends Controller
     public function __invoke()
     {
         $result = $this->profile->getProfile();
-
         return $this->response($result['code'], $result['status'], $result['data'], $result['message']);
+
     }
 }

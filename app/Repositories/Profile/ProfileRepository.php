@@ -16,15 +16,16 @@ class ProfileRepository implements ProfileInterface
     {
         $sql = 'SELECT `USER_DETAIL`() AS result';
         $result = wdb($sql);
+        $result['data']=json_decode($result['data'], true);
         if ($result['status']) {
             return [
-                'status' => $result['status'],
-                'code' => $result['code'],
-                'message' => $result['message'],
+                'status' => true,
+                'code' => 200,
+                'message' => 'fetched successfully',
                 'data' => $result['data'],
             ];
         } else {
-            throw new ApiException($result['message'], $result['code']);
+            throw new ApiException('fetched successfully', 401);
         }
     }
 }
