@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
@@ -32,5 +33,15 @@ class LoginRequest extends BaseFormRequest
                 },
             ],
         ];
+    }
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'code' => 422,
+            'status' => false,
+            'message' => 'Validation Error',
+            'errors' => $validator->errors(),
+            'data' => []
+        ], 422));
     }
 }

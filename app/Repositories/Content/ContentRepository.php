@@ -7,6 +7,7 @@ use App\Exceptions\ValidationException;
 use App\Repositories\Contracts\ContentInterface;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
