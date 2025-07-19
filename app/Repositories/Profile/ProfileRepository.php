@@ -25,7 +25,7 @@ class ProfileRepository implements ProfileInterface
                 'data' => $result['data'],
             ];
         } else {
-            throw new ApiException('fetched successfully', 401);
+            throw new ApiException('fetched failed', 401);
         }
     }
 }

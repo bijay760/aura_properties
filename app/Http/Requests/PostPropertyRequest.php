@@ -17,94 +17,94 @@ class PostPropertyRequest extends FormRequest
 
     public function rules()
     {
-        return [];
-//        return [
-//            'listing_type' => ['required', Rule::in(['sell', 'rent'])],
-//            'property_category_id' => 'required|integer|exists:property_categories,id',
-//            'covered_area' => 'required|numeric|min:0',
-//            'carpet_area' => 'required|numeric|min:0',
-//            'total_price' => 'required|numeric|min:0',
-//            'is_price_negotiable' => 'required|boolean',
-//            'city' => ['required', 'string', 'max:255'],
-//            'locality' => [
-//                'required',
-//                'string',
-//                'max:255',
-//                function ($attribute, $value, $fail) {
-//                    $city = DB::table('cities')
-//                        ->whereRaw('LOWER(name) = ?', [strtolower($this->input('city'))])
-//                        ->first();
-//
-//                    if (!$city) {
-//                        $fail('The selected city does not exist.');
-//                        return;
-//                    }
-//
-//                    $locality = DB::table('localities')
-//                        ->whereRaw('LOWER(name) = ?', [strtolower($value)])
-//                        ->where('city_id', $city->id)
-//                        ->first();
-//
-//                    if (!$locality) {
-//                        $fail('The selected locality does not exist in this city.');
-//                    }
-//                }
-//            ],
-//            'project_name' => [
-//                'nullable',
-//                'string',
-//                'max:255',
-//                function ($attribute, $value, $fail) {
-//                    if (empty($value)) return;
-//
-//                    $city = DB::table('cities')
-//                        ->whereRaw('LOWER(name) = ?', [strtolower($this->input('city'))])
-//                        ->first();
-//
-//                    if (!$city) return;
-//
-//                    $locality = DB::table('localities')
-//                        ->whereRaw('LOWER(name) = ?', [strtolower($this->input('locality'))])
-//                        ->where('city_id', $city->id)
-//                        ->first();
-//
-//                    if (!$locality) return;
-//
-//                    $project = DB::table('projects')
-//                        ->whereRaw('LOWER(name) = ?', [strtolower($value)])
-//                        ->where('locality_id', $locality->id)
-//                        ->first();
-//
-//                    if (!$project) {
-//                        $fail('The selected project does not exist in this locality.');
-//                    }
-//                }
-//            ],
-//            'address' => 'required|string|max:500',
-//            'total_numbers' => 'required|integer|min:0',
-//            'bedrooms_count' => 'required|integer|min:0',
-//            'bathrooms_count' => 'required|integer|min:0',
-//            'balcony_count' => 'required|integer|min:0',
-//            'is_furnishing' => 'required|boolean',
-//            'floor_count' => 'required|integer|min:0',
-//            'total_floors' => 'required|integer|min:0',
-//            'additional_rooms' => 'nullable|array',
-//            'additional_rooms.*' => 'string|max:100',
-//            'overlooking' => 'nullable|array',
-//            'overlooking.*' => 'string|max:100',
-//            'directional_facing' => 'nullable|string|max:50',
-//            'ownershio_type' => 'nullable|string|max:100',
-//            'more_property_details' => 'nullable|string',
-//            'transaction_type' => ['required', Rule::in(['new', 'resale'])],
-//            'availability_status' => ['required', Rule::in(['under_construction', 'ready_to_move'])],
-//            'possession' => 'required|date|after_or_equal:today',
-//            'approved_by_bank' => 'nullable|string|max:255',
-//            'amenities' => 'nullable|string|max:500',
-//            'flooring_type' => 'nullable|string|max:100',
-//            'landmark' => 'nullable|string|max:500',
-//            'feature_images' => 'required|min:1',
-//            'feature_images.*' => 'file|image|mimes:jpeg,png,jpg|max:2048',
-//        ];
+//        return [];
+        return [
+            'listing_type' => ['required', Rule::in(['sale', 'rent'])],
+            'property_category_id' => 'required|integer|exists:property_categories,id',
+            'covered_area' => 'required|numeric|min:0',
+            'carpet_area' => 'required|numeric|min:0',
+            'total_price' => 'required|numeric|min:0',
+            'is_price_negotiable' => 'required|boolean',
+            'city' => ['required', 'string', 'max:255'],
+            'locality' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $city = DB::table('cities')
+                        ->whereRaw('LOWER(name) = ?', [strtolower($this->input('city'))])
+                        ->first();
+
+                    if (!$city) {
+                        $fail('The selected city does not exist.');
+                        return;
+                    }
+
+                    $locality = DB::table('localities')
+                        ->whereRaw('LOWER(name) = ?', [strtolower($value)])
+                        ->where('city_id', $city->id)
+                        ->first();
+
+                    if (!$locality) {
+                        $fail('The selected locality does not exist in this city.');
+                    }
+                }
+            ],
+            'project_name' => [
+                'nullable',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (empty($value)) return;
+
+                    $city = DB::table('cities')
+                        ->whereRaw('LOWER(name) = ?', [strtolower($this->input('city'))])
+                        ->first();
+
+                    if (!$city) return;
+
+                    $locality = DB::table('localities')
+                        ->whereRaw('LOWER(name) = ?', [strtolower($this->input('locality'))])
+                        ->where('city_id', $city->id)
+                        ->first();
+
+                    if (!$locality) return;
+
+                    $project = DB::table('projects')
+                        ->whereRaw('LOWER(name) = ?', [strtolower($value)])
+                        ->where('locality_id', $locality->id)
+                        ->first();
+
+                    if (!$project) {
+                        $fail('The selected project does not exist in this locality.');
+                    }
+                }
+            ],
+            'address' => 'required|string|max:500',
+            'total_numbers' => 'required|integer|min:0',
+            'bedrooms_count' => 'required|integer|min:0',
+            'bathrooms_count' => 'required|integer|min:0',
+            'balcony_count' => 'required|integer|min:0',
+            'is_furnishing' => 'required|boolean',
+            'floor_count' => 'required|integer|min:0',
+            'total_floors' => 'required|integer|min:0',
+            'additional_rooms' => 'nullable|array',
+            'additional_rooms.*' => 'string|max:100',
+            'overlooking' => 'nullable|array',
+            'overlooking.*' => 'string|max:100',
+            'directional_facing' => 'nullable|string|max:50',
+            'ownershio_type' => 'nullable|string|max:100',
+            'more_property_details' => 'nullable|string',
+            'transaction_type' => ['required', Rule::in(['new', 'resale'])],
+            'availability_status' => ['required', Rule::in(['under_construction', 'ready_to_move'])],
+            'possession' => 'required|date|after_or_equal:today',
+            'approved_by_bank' => 'nullable|string|max:255',
+            'amenities' => 'nullable|string|max:500',
+            'flooring_type' => 'nullable|string|max:100',
+            'landmark' => 'nullable|string|max:500',
+            'feature_images' => 'required|min:1',
+            'feature_images.*' => 'file|image|mimes:jpeg,png,jpg|max:2048',
+        ];
     }
 
     public function messages()
