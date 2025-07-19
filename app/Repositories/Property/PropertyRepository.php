@@ -108,8 +108,15 @@ class PropertyRepository implements PropertiesInterface
     }
 
 
-    public function getProperty(Request $request): array
+    public function getProperty(): array
     {
-
+        $sql='CALL GET_PROPERTIES_MINE()';
+        $result = wdb($sql);
+        return [
+            'code' => 200,
+            'data' => $result,
+            'message' => 'Fetched successfully',
+            'status' => true
+        ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Content\AddProjectsController;
 use App\Http\Controllers\Content\GetLocalitiesController;
 use App\Http\Controllers\Content\GetCitiesController;
 use App\Http\Controllers\Property\PostPropertyController;
+use App\Http\Controllers\Property\GetMyPropertyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -41,6 +42,7 @@ Route::middleware(['apiHash', 'sanitize'])->group(function ($router) {
     Route::middleware('validated-user')->group(function ($router) {
         $router->get('profile', ProfileController::class);
         $router->post('post-property', PostPropertyController::class);
+        $router->get('my-property', GetMyPropertyController::class);
     });
 });
 Route::fallback(function () {
