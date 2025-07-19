@@ -51,11 +51,10 @@ function uploadFiles($files, string $location = 'uploads'): array
     $files = is_array($files) ? $files : [$files];
 
     // Create directory if it doesn't exist
-    $fullPath = public_path($location);
+    $fullPath = base_path($location);
     if (!File::exists($fullPath)) {
         File::makeDirectory($fullPath, 0755, true);
     }
-
     foreach ($files as $file) {
         if (!($file instanceof UploadedFile)) {
             continue;

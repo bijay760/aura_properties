@@ -30,6 +30,7 @@ class PropertyRepository implements PropertiesInterface
         try {
             $uploadedFiles = uploadFiles($request->file('feature_images'), 'uploads/gallery');
 
+            dd($uploadedFiles);
             if ($request->property_category_id == 1) {
                 try {
                     $amenities = $request->amenities;
