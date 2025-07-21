@@ -17,13 +17,15 @@ class PostPropertyRequest extends FormRequest
 
     public function rules()
     {
-//        return [];
-        return [
+        $rules = [
             'listing_type' => ['required', Rule::in(['sale', 'rent'])],
             'property_category_id' => 'required|integer|exists:property_categories,id',
             'covered_area' => 'required|numeric|min:0',
             'carpet_area' => 'required|numeric|min:0',
             'total_price' => 'required|numeric|min:0',
+            'number_of_open_side'=> 'numeric|nullable',
+            'width_of_road_facing_plot'=> 'numeric|nullable',
+            'floor_allowed_for_construction'=> 'numeric|nullable',
             'is_price_negotiable' => 'required|boolean',
             'city' => ['required', 'string', 'max:255'],
             'locality' => [
@@ -82,18 +84,12 @@ class PostPropertyRequest extends FormRequest
             ],
             'address' => 'required|string|max:500',
             'total_numbers' => 'required|integer|min:0',
-            'bedrooms_count' => 'required|integer|min:0',
-            'bathrooms_count' => 'required|integer|min:0',
-            'balcony_count' => 'required|integer|min:0',
-            'is_furnishing' => 'required|boolean',
-            'floor_count' => 'required|integer|min:0',
-            'total_floors' => 'required|integer|min:0',
             'additional_rooms' => 'nullable|array',
             'additional_rooms.*' => 'string|max:100',
             'overlooking' => 'nullable|array',
             'overlooking.*' => 'string|max:100',
             'directional_facing' => 'nullable|string|max:50',
-            'ownershio_type' => 'nullable|string|max:100',
+            'ownership_type' => 'nullable|string|max:100',
             'more_property_details' => 'nullable|string',
             'transaction_type' => ['required', Rule::in(['new', 'resale'])],
             'availability_status' => ['required', Rule::in(['under_construction', 'ready_to_move'])],
@@ -102,9 +98,23 @@ class PostPropertyRequest extends FormRequest
             'amenities' => 'nullable|string|max:500',
             'flooring_type' => 'nullable|string|max:100',
             'landmark' => 'nullable|string|max:500',
-            'feature_images' => 'required|min:1',
-            'feature_images.*' => 'file|image|mimes:jpeg,png,jpg|max:2048',
+            'feature_images'=>'required|array',
+            'feature_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
+
+        // Add conditional rules for non-plot properties
+        if ($this->input('property_category_id') != 5 ||$this->input('property_category_id') != 11 ||$this->input('property_category_id') != 12 || $this->input('property_category_id') != 13 || $this->input('property_category_id') != 14) {
+            $rules = array_merge($rules, [
+                'bedrooms_count' => 'required|integer|min:0',
+                'bathrooms_count' => 'required|integer|min:0',
+                'balcony_count' => 'required|integer|min:0',
+                'is_furnishing' => 'required|boolean',
+                'floor_count' => 'integer|min:0',
+                'total_floors' => 'integer|min:0',
+            ]);
+        }
+
+        return $rules;
     }
 
     public function messages()

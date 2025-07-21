@@ -25,9 +25,9 @@ class GetMyPropertyController extends Controller
     /**
      * @return array
      */
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $result = $this->property->getProperty();
+        $result = $this->property->getProperty($request);
         return $this->response($result['code'], $result['status'], $result['data'], $result['message']);
     }
 }
