@@ -16,13 +16,13 @@ class ApiMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (empty($request->header('authorization'))) {
-            throw new ApiException("Not authorized", 401);
-        }
-
-        if ($request->header('authorization') != config('global.apiKey')) {
-            throw new ApiException("Not authorized", 401);
-        }
+//        if (empty($request->header('authorization'))) {
+//            throw new ApiException("Not authorized", 401);
+//        }
+//
+//        if ($request->header('authorization') != config('global.apiKey')) {
+//            throw new ApiException("Not authorized", 401);
+//        }
         return $next($request);
     }
 }
