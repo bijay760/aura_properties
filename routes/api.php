@@ -8,6 +8,7 @@ use App\Http\Controllers\Content\AddProjectsController;
 use App\Http\Controllers\Content\GetLocalitiesController;
 use App\Http\Controllers\Content\GetCitiesController;
 use App\Http\Controllers\Property\PostPropertyController;
+use App\Http\Controllers\Property\EditPropertyController;
 use App\Http\Controllers\Property\GetMyPropertyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
@@ -36,12 +37,10 @@ Route::middleware(['apiHash', 'sanitize'])->group(function ($router) {
     $router->post('add-project', AddProjectsController::class);
     $router->get('get-projects', GetProjectsController::class);
 
-
-
-
     Route::middleware('validated-user')->group(function ($router) {
         $router->get('profile', ProfileController::class);
         $router->post('post-property', PostPropertyController::class);
+        $router->post('edit-property', EditPropertyController::class);
         $router->get('my-property', GetMyPropertyController::class);
     });
 });
