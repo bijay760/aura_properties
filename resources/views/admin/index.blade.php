@@ -8,6 +8,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 class="text-rose-500 font-semibold">Welcome to the Admin Dashboard</h1>
+    @include('components.icons')
+  @include('components.sidebar')
+  </div>
 </body>
 </html>
