@@ -190,7 +190,7 @@
 
     {{-- Enhanced Pagination --}}
     @if($users->hasPages())
-        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+        <div class=" px-4 py-3 rounded-lg">
             <div class="flex flex-col sm:flex-row justify-end items-center space-y-3 sm:space-y-0">
                 {{-- Pagination Controls --}}
                 <div class="flex items-center space-x-2">
