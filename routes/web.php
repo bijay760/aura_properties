@@ -11,7 +11,5 @@ Route::get('/admin', function () {
 });
 
 Route::get('/admin/users', function () {
-    $users = User::limit(100)->get();
-    dump($users); // dumps to terminal
-    return view('admin.user', compact('users'));
+    return view('admin.user');
 });

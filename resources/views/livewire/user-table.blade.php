@@ -3,7 +3,7 @@
     <div class="flex flex-col lg:flex-row gap-2">
         <input type="text"
                wire:model.live.debounce.300ms="filterId"
-               placeholder="Filter by ID"
+               placeholder="Search by ID"
                class="border border-neutral-400 px-3 py-2 rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
         <input type="text"
                wire:model.live.debounce.300ms="filterName"
