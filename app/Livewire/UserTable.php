@@ -14,70 +14,43 @@ class UserTable extends Component
     public $filterName = '';
     public $filterEmail = '';
     public $filterType = '';
+    public $perPage = 10;
 
     protected $queryString = [
         'filterId' => ['except' => ''],
         'filterName' => ['except' => ''],
         'filterEmail' => ['except' => ''],
         'filterType' => ['except' => ''],
+        'perPage' => ['except' => 10],
     ];
 
-    // Use a single method to handle all filter updates
-    public function updatedFilterId($value)
-    {
-        $this->resetPage();
-    }
-
-    public function updatedFilterName($value)
-    {
-        $this->resetPage();
-    }
-
-    public function updatedFilterEmail($value)
-    {
-        $this->resetPage();
-    }
-
-    public function updatedFilterType($value)
-    {
-        $this->resetPage();
-    }
-
-    // Alternative: Use a single method for all filters
     public function updating($property, $value)
     {
-        if (in_array($property, ['filterId', 'filterName', 'filterEmail', 'filterType'])) {
+        if (in_array($property, ['filterId', 'filterName', 'filterEmail', 'filterType', 'perPage'])) {
             $this->resetPage();
         }
     }
 
+public function clearFilters()
+{
+    $this->filterId = '';
+    $this->filterName = '';
+    $this->filterEmail = '';
+    $this->filterType = '';
+    $this->resetPage();
+}
+
+
     public function render()
     {
         $users = User::query()
-            ->when($this->filterId, function($q) {
-                return $q->where('users.id', $this->filterId);
-            })
-            ->when($this->filterName, function($q) {
-                return $q->where('users.name', 'like', '%' . $this->filterName . '%');
-            })
-            ->when($this->filterEmail, function($q) {
-                return $q->where('users.email', 'like', '%' . $this->filterEmail . '%');
-            })
-            ->when($this->filterType, function($q) {
-                return $q->where('users.type', $this->filterType);
-            })
-            ->paginate(10);
+            ->when($this->filterId, fn($q) => $q->where('users.id', $this->filterId))
+            ->when($this->filterName, fn($q) => $q->where('users.name', 'like', '%' . $this->filterName . '%'))
+            ->when($this->filterEmail, fn($q) => $q->where('users.email', 'like', '%' . $this->filterEmail . '%'))
+            ->when($this->filterType, fn($q) => $q->where('users.type', $this->filterType))
+            ->paginate($this->perPage);
 
         return view('livewire.user-table', compact('users'));
     }
-
-    // Optional: Add method to clear all filters
-    public function clearFilters()
-    {
-        $this->filterId = '';
-        $this->filterName = '';
-        $this->filterEmail = '';
-        $this->filterType = '';
-        $this->resetPage();
-    }
 }
+

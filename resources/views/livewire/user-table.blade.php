@@ -1,4 +1,4 @@
-<div class=" p-4 h-screen bg-white shadow-xl rounded-xl space-y-4">
+<div class=" p-4 min-h-screen bg-white shadow-xl rounded-xl space-y-4">
     {{-- Filter Section --}}
     <div class="flex flex-col lg:flex-row gap-2">
         <input type="text"
@@ -60,20 +60,24 @@
 
     {{-- Results Summary --}}
     <div class="flex justify-between items-center text-sm text-gray-600">
-        <div>
-            @if($users->total() > 0)
-                Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }} users
-            @else
-                No users found
-            @endif
-        </div>
+        @if($users->total() > 0)
+          <div class="text-sm text-gray-700">
+                    Showing <span class="font-semibold text-gray-900">{{ $users->firstItem() }}</span> - 
+                    <span class="font-semibold text-gray-900">{{ $users->lastItem() }}</span> of 
+                    <span class="font-semibold text-gray-900">{{ $users->total() }}</span> users
+                </div>
+                @else
+          <div class="text-sm text-gray-700">
+                    No users found
+                </div>
+        @endif
         {{-- Per Page Selector --}}
         @if($users->total() > 10)
             <div class="flex items-center space-x-2">
                 <label for="perPage" class="text-sm">Show:</label>
-                <select wire:model.live="perPage" id="perPage" 
+                <select class="font-semibold text-gray-900" wire:model.live="perPage" id="perPage" 
                         class="text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
-                    <option value="10">10</option>
+                    <option  value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
@@ -183,14 +187,7 @@
     {{-- Enhanced Pagination --}}
     @if($users->hasPages())
         <div class="bg-gray-50 px-4 py-3 rounded-lg">
-            <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
-                {{-- Results Info --}}
-                <div class="text-sm text-gray-700">
-                    Showing <span class="font-semibold text-gray-900">{{ $users->firstItem() }}</span> - 
-                    <span class="font-semibold text-gray-900">{{ $users->lastItem() }}</span> of 
-                    <span class="font-semibold text-gray-900">{{ $users->total() }}</span> results
-                </div>
-                
+            <div class="flex flex-col sm:flex-row justify-end items-center space-y-3 sm:space-y-0">
                 {{-- Pagination Controls --}}
                 <div class="flex items-center space-x-2">
                     {{-- Previous Button --}}

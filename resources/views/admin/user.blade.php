@@ -11,7 +11,7 @@
     <div class="flex gap-2 min-h-screen">
         @include('components.icons')
         @include('components.sidebar')
-        <div class="flex-1">
+        <div class="flex-1 ml-40">
             <livewire:user-table />
         </div>
     </div>
