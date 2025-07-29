@@ -7,14 +7,14 @@
 @endsection
 
 @section('content')
-<div class="min-h-screen p-6 bg-gray-100">
-    <div class="bg-white rounded-xl shadow-md p-6 space-y-6">
+<div class="min-h-screen">
+    <div class=" p-6 space-y-6">
 
         <!-- Header -->
         <div class="flex justify-between items-center">
             <h2 class="text-xl font-semibold">User Management</h2>
             <a href="{{ route('admin.user.index') }}" class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
-                <i class="fas fa-plus mr-1 text-white"></i> Create User
+                <i class="fas fa-plus mr-1 text-white"></i> Add User
             </a>
         </div>
 
@@ -98,12 +98,68 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Pagination -->
-        <div>
+        {{-- <div>
             {{ $users->appends(request()->query())->links() }}
-        </div>
+        </div> --}}
+<div class="flex justify-between items-center">
+  @php
+    $paginator = $users;
+    $current = $paginator->currentPage();
+    $last = $paginator->lastPage();
+@endphp
 
+@if ($paginator->hasPages())
+    <div class="text-sm text-gray-600 text-center mb-2">
+        Showing <span class=" font-semibold text-black">{{ ($current - 1) * $paginator->perPage() + 1 }} -
+        {{ min($current * $paginator->perPage(), $paginator->total()) }}</span>  of
+    <span class=" font-semibold text-black">{{ $paginator->total() }}</span> results
+    </div>
+
+    <div class="flex gap-2 justify-center">
+        {{-- Prev --}}
+        @if ($paginator->onFirstPage())
+            <span class="px-3 py-1 bg-gray-300 text-gray-600 rounded">Prev</span>
+        @else
+            <a href="{{ $paginator->previousPageUrl() }}" class="px-3 py-1 bg-black text-white rounded">Prev</a>
+        @endif
+        {{-- Page Numbers --}}
+        @php
+            $start = max(2, $current - 2);
+            $end = min($last - 1, $current + 2);
+        @endphp
+        {{-- First Page --}}
+        <a href="{{ $paginator->url(1) }}" class="px-3 py-1 border border-black text-black rounded {{ $current === 1 ? 'bg-black text-white' : '' }}">1</a>
+        {{-- Dots before --}}
+        @if ($start > 2)
+            <span class="px-2">...</span>
+        @endif
+        {{-- Middle Pages --}}
+        @for ($i = $start; $i <= $end; $i++)
+            @if ($i == $current)
+                <span class="px-3 py-1 bg-black text-white rounded">{{ $i }}</span>
+            @else
+                <a href="{{ $paginator->url($i) }}" class="px-3 py-1 border border-black text-black rounded">{{ $i }}</a>
+            @endif
+        @endfor
+        {{-- Dots after --}}
+        @if ($end < $last - 1)
+            <span class="px-2">...</span>
+        @endif
+        {{-- Last Page --}}
+        @if ($last > 1)
+            <a href="{{ $paginator->url($last) }}" class="px-3 py-1 border border-black text-black rounded {{ $current === $last ? 'bg-black text-white' : '' }}">{{ $last }}</a>
+        @endif
+
+        {{-- Next --}}
+        @if ($paginator->hasMorePages())
+            <a href="{{ $paginator->nextPageUrl() }}" class="px-3 py-1 bg-black text-white rounded">Next</a>
+        @else
+            <span class="px-3 py-1 bg-gray-300 text-gray-600 rounded">Next</span>
+        @endif
+    </div>
+@endif
+        </div>
     </div>
 </div>
 @endsection
