@@ -110,7 +110,7 @@
 @endphp
 
 @if ($paginator->hasPages())
-    <div class="text-sm text-gray-600 text-center mb-2">
+    <div class=" text-lg text-gray-600 text-center mb-2">
         Showing <span class=" font-semibold text-black">{{ ($current - 1) * $paginator->perPage() + 1 }} -
         {{ min($current * $paginator->perPage(), $paginator->total()) }}</span>  of
     <span class=" font-semibold text-black">{{ $paginator->total() }}</span> results
