@@ -28,7 +28,7 @@
 @yield('page-specific-scripts')
 <!--begin::Page Custom Javascript(used by this page)-->
 <!--end::Page Custom Javascript-->
-{!! Toastr::render() !!}
+{{-- {!! Toastr::render() !!} --}}
 <!-- js for clock -->
 <script>
     function showTime() {
