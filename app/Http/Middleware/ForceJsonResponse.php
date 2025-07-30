@@ -15,10 +15,8 @@ class ForceJsonResponse
 
         $response = $next($request);
 
-        // If already a JsonResponse, format it uniformly
         if ($response instanceof JsonResponse) {
             $original = $response->getData(true);
-
             // Preserve validation errors if they exist
             $errors = $original['errors'] ?? null;
 
@@ -31,7 +29,6 @@ class ForceJsonResponse
             ], $response->getStatusCode());
         }
 
-        // Handle non-JSON responses (unchanged)
         $statusCode = $response->getStatusCode();
         $content = $response->getContent();
 

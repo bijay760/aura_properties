@@ -8,14 +8,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 abstract class BaseFormRequest extends FormRequest
 {
-    public function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
             'code' => 422,
             'status' => false,
-            'data' => [],
             'message' => 'Validation Error',
-            'error' => $validator->errors(),
+            'errors' => $validator->errors(),
+            'data' => []
         ], 422));
     }
 }

@@ -8,11 +8,11 @@
     "require": {
         "php": "^8.2",
         "firebase/php-jwt": "^6.11",
-        "intervention/image": "^3.11",
+        "intervention/image-laravel": "^1.5",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.1",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.6"
+        "oriceon/toastr-5-laravel": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -27,6 +27,7 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
+            "App\\Services\\": "app/Http/Services/",
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [

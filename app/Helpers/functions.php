@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Http;
 
 /*
@@ -32,7 +32,6 @@ Execute Database Functions
 */
 
 
-
 /**
  * Sanitize and upload image(s) to specified location
  *
@@ -46,92 +45,41 @@ Execute Database Functions
  * @return array|string Array of filenames for multiple uploads or single filename
  * @throws \Exception
  */
-function uploadAndSanitizeImage($file, string $location = 'public/uploads', array $options = [])
+function uploadFiles($files, string $location = 'uploads'): array
 {
-    // Set default options
-    $defaultOptions = [
-        'max_size' => 2048, // 2MB
-        'allowed_mimes' => ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-        'quality' => 85,
-        'resize' => null,
-    ];
+    $uploadedPaths = [];
+    $files = is_array($files) ? $files : [$files];
 
-    $options = array_merge($defaultOptions, $options);
-
-    // Handle multiple files
-    if (is_array($file)) {
-        $uploadedFiles = [];
-
-        foreach ($file as $singleFile) {
-            if (!$singleFile instanceof UploadedFile) {
-                continue;
-            }
-
-            $uploadedFiles[] = processSingleFile($singleFile, $location, $options);
+    // Create directory if it doesn't exist
+    $fullPath = base_path($location);
+    if (!File::exists($fullPath)) {
+        File::makeDirectory($fullPath, 0755, true);
+    }
+    foreach ($files as $file) {
+        if (!($file instanceof UploadedFile)) {
+            continue;
         }
 
-        return $uploadedFiles;
+        if (!$file->isValid()) {
+            throw new \RuntimeException('File upload error: ' . $file->getErrorMessage());
+        }
+
+        $extension = $file->getClientOriginalExtension();
+        $filename = Str::random(40) . '.' . $extension;
+
+        try {
+            // Move file to public directory
+            $file->move($fullPath, $filename);
+
+            // Return web-accessible path (no 'public' in path)
+            $uploadedPaths[] = "$location/$filename";
+
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Failed to store file: ' . $e->getMessage());
+        }
     }
 
-    // Handle single file
-    if ($file instanceof UploadedFile) {
-        return processSingleFile($file, $location, $options);
-    }
-
-    throw new \Exception('Invalid file provided for upload');
-}
-
-
-function processSingleFile(UploadedFile $file, string $location, array $options): string
-{
-    // Validate file
-    if (!$file->isValid()) {
-        throw new \Exception('File upload failed');
-    }
-
-    // Check file size
-    if ($file->getSize() > $options['max_size'] * 1024) {
-        throw new \Exception('File size exceeds maximum allowed size of ' . $options['max_size'] . 'KB');
-    }
-
-    // Check MIME type
-    $mime = $file->getMimeType();
-    if (!in_array($mime, $options['allowed_mimes'])) {
-        throw new \Exception('File type ' . $mime . ' is not allowed');
-    }
-
-    // Generate hashed filename with original extension
-    $extension = $file->getClientOriginalExtension();
-    $filename = Str::random(40) . '.' . $extension;
-
-    // Read file content
-    $image = Image::make($file->getRealPath());
-
-    // Sanitize by removing EXIF data
-    $image->orientate();
-
-    // Resize if needed
-    if ($options['resize'] && is_array($options['resize'])) {
-        $image->resize(
-            $options['resize']['width'] ?? null,
-            $options['resize']['height'] ?? null,
-            function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            }
-        );
-    }
-
-    // Ensure directory exists
-    if (!Storage::exists($location)) {
-        Storage::makeDirectory($location);
-    }
-
-    // Save the sanitized image
-    $path = $location . '/' . $filename;
-    Storage::put($path, (string) $image->encode(null, $options['quality']));
-
-    return $filename;
+    return $uploadedPaths;
 }
 
 if (!function_exists('wdb')) {
@@ -445,15 +393,13 @@ if (!function_exists('get_city')) {
 Get Session Data
 */
 if (!function_exists('a_auth')) {
-    function a_auth($keys = null)
+    function a_auth($keys = 'user_id')
     {
         $sql = 'SELECT `fn_user_detail`() AS result';
         $result = wdb($sql);
-        if ($result['status'] === 1) {
-            if ($keys) {
-                $result = $result['data'][$keys];
-            }
-            return $result;
+        if ($result['status'] == 1) {
+            $result = (array) json_decode($result['data']);
+            return $result[$keys];
         }
 
         return false;
@@ -908,7 +854,7 @@ if (!function_exists('getUserByTransaction')) {
             'transaction_amount' => $userInfo->transaction_amount,
             'transaction_fee' => $userInfo->transaction_fee,
             'transaction_id' => $userInfo->transaction_id,
-            'deposit_wallet'=>$userInfo->symbol='usd'?$userInfo->from:strtoupper($userInfo->symbol),
+            'deposit_wallet' => $userInfo->symbol = 'usd' ? $userInfo->from : strtoupper($userInfo->symbol),
         ];
     }
 }
@@ -947,7 +893,7 @@ function getAdsPackagesList(): array
         if ((isset($q['ads_package_id'])) && isset($q['data'])) {
             $data = json_decode($q['data']);
             if ($q['ads_package_id'] == 1) {
-                $paid=json_decode($data->paid);
+                $paid = json_decode($data->paid);
                 if (isset($data->paid) && isset($paid->rent_status) && $paid->rent_status == 1) {
                     $paid_max = isset($paid->rented_task) ? $paid->rented_task : 0;
                     $paid_view = isset($paid->rented_task) ? $paid->rented_task : 0;
@@ -961,12 +907,12 @@ function getAdsPackagesList(): array
                     $paid_max = 0;
                     $paid_view = 0;
                 }
-                $free=json_decode($data->free);
+                $free = json_decode($data->free);
 
                 $q['data'] = [
                     'free' => [
                         'max' => $free->max_daily,
-                        'viewed' =>min($free->total_ads_daily, $free->max_daily),
+                        'viewed' => min($free->total_ads_daily, $free->max_daily),
                         'not_paid_task' => $free->total_ads_count_not_paid,
                         'not_paid_amount' => floor_number_format($free->total_ads_count_not_paid * $free->per_ad_cost, 2),
                         'paid_task' => $free->total_ads_count_paid,
@@ -975,10 +921,10 @@ function getAdsPackagesList(): array
                     'paid' => [
                         'max' => $paid_max,
                         'viewed' => $paid_view
-                    ],'earnings' => [
+                    ], 'earnings' => [
                         'delegated_earning' => $paid?->delegated_earning ?? 0,
-                        'delegated_fee' => floor_number_format($paid?->delegated_fee ?? 0,3),
-                        'normal_earning'    => $paid?->normal_earning ?? 0,
+                        'delegated_fee' => floor_number_format($paid?->delegated_fee ?? 0, 3),
+                        'normal_earning' => $paid?->normal_earning ?? 0,
                     ]
 
                 ];
@@ -996,23 +942,23 @@ function getAdsPackagesList(): array
                     $paid_max = 0;
                     $paid_view = 0;
                 }
-                $free=json_decode($data->free);
+                $free = json_decode($data->free);
                 $q['data'] = [
                     'free' => [
                         'max' => $free->max_daily,
-                        'viewed' =>min($free->total_ai_task_daily, $free->max_daily),
+                        'viewed' => min($free->total_ai_task_daily, $free->max_daily),
                         'not_paid_task' => $free->total_ai_task_count_not_paid,
                         'not_paid_amount' => floor_number_format($free->total_ai_task_count_not_paid * $free->per_ai_task_cost, 2),
                         'paid_task' => $free->total_ai_task_count_paid,
-                        'paid_amount' => floor_number_format((min($free->total_ai_task_daily, $free->max_daily))* $free->per_ai_task_cost, 3),
+                        'paid_amount' => floor_number_format((min($free->total_ai_task_daily, $free->max_daily)) * $free->per_ai_task_cost, 3),
                     ],
                     'paid' => [
                         'max' => $paid_max,
                         'viewed' => $paid_view
-                    ],'earnings' => [
+                    ], 'earnings' => [
                         'delegated_earning' => $data->paid->delegated_earning ?? 0,
-                        'delegated_fee' => floor_number_format($data->paid->delegated_fee ?? 0,3),
-                        'normal_earning'    => $data->paid->normal_earning ?? 0,
+                        'delegated_fee' => floor_number_format($data->paid->delegated_fee ?? 0, 3),
+                        'normal_earning' => $data->paid->normal_earning ?? 0,
                     ]
                 ];
             }
@@ -1034,6 +980,7 @@ function getAdsPackagesList(): array
         'data' => $packages,
     ];
 }
+
 function getProfile(): array
 {
     $sql = 'SELECT `USER_DETAIL`() AS result';
@@ -1049,48 +996,50 @@ function getProfile(): array
         throw new ApiException($result['message'], $result['code']);
     }
 }
+
 function get_referral_by_level($user_id): array
 {
-        $page = $request->page ?? 1;
-        $limit = $request->limit ?? 0;
-        $level = $request->level ?? 1;
-        $params = [
-            'page' => $page,
-            'limit' => $limit,
-            'level' => $level,
-            'user_id' => $user_id,
-            'type' => $request->user_type ?? 0,
-        ];
-        $sql = 'CALL `sp_get_referrals_by_level`(:page,:limit,:level,:user_id,:type)';
-        $referrals = wdb($sql, $params);
-        $sql = 'SELECT @found_rows AS result';
-        $found_rows = wdb($sql);
-        $referrals = array_map(function ($q) {
-            if (isset($q['commission'])) {
-                $q['commission'] = json_decode($q['commission']);
-            }
-            return $q;
-        }, $referrals);
-        return [
-            'status' => true,
-            'code' => 200,
-            'message' => 'data fetched',
-            'data' => ['referrals' => $referrals, 'total' => $found_rows, 'per_page' => $limit],
-        ];
+    $page = $request->page ?? 1;
+    $limit = $request->limit ?? 0;
+    $level = $request->level ?? 1;
+    $params = [
+        'page' => $page,
+        'limit' => $limit,
+        'level' => $level,
+        'user_id' => $user_id,
+        'type' => $request->user_type ?? 0,
+    ];
+    $sql = 'CALL `sp_get_referrals_by_level`(:page,:limit,:level,:user_id,:type)';
+    $referrals = wdb($sql, $params);
+    $sql = 'SELECT @found_rows AS result';
+    $found_rows = wdb($sql);
+    $referrals = array_map(function ($q) {
+        if (isset($q['commission'])) {
+            $q['commission'] = json_decode($q['commission']);
+        }
+        return $q;
+    }, $referrals);
+    return [
+        'status' => true,
+        'code' => 200,
+        'message' => 'data fetched',
+        'data' => ['referrals' => $referrals, 'total' => $found_rows, 'per_page' => $limit],
+    ];
 }
+
 function getAllByFilter($user_id): array
 {
     create_wallet_if_not_found();
     $params = [
         'type' => null,
-        'wallet_id' =>null,
+        'wallet_id' => null,
         'user_id' => $user_id ?? 0
     ];
     $sql = 'CALL `sp_user_wallet_all`(:type,:wallet_id,:user_id)';
     $wallets = wdb($sql, $params);
     $totalWalletBalance = floor_number_format(array_sum(array_column($wallets, 'wallet_balance')), 3);
     $mappedWallets = array_map(function ($wallet) {
-        $wallet['wallet_name_only']=$wallet['wallet_name'];
+        $wallet['wallet_name_only'] = $wallet['wallet_name'];
         return $wallet;
     }, $wallets);
     return [
@@ -1100,7 +1049,8 @@ function getAllByFilter($user_id): array
         'data' => ['wallets' => $mappedWallets, 'totalWalletBalance' => $totalWalletBalance],
     ];
 }
-function getAllTransactions($wallet_type,$user_id,$limit=10): array
+
+function getAllTransactions($wallet_type, $user_id, $limit = 10): array
 {
     $page = $request->page ?? 1;
 
@@ -1123,6 +1073,7 @@ function getAllTransactions($wallet_type,$user_id,$limit=10): array
         'data' => ['transactions' => $result, 'total' => $found_rows, 'per_page' => $limit],
     ];
 }
+
 function removeImage($image, $path)
 {
     $filePath = public_path($path . '/' . $image);
@@ -1576,7 +1527,7 @@ if (!function_exists('getCurrencyCodeById')) {
         $image = imagecreatetruecolor($width, $height);
 
         // Background and text colors
-        $bgColor = imagecolorallocate($image, rand(100,255), rand(100,255), rand(100,255));
+        $bgColor = imagecolorallocate($image, rand(100, 255), rand(100, 255), rand(100, 255));
         imagefilledrectangle($image, 0, 0, $width, $height, $bgColor);
 
         // Add noise: lines
@@ -1637,7 +1588,7 @@ if (!function_exists('getCurrencyCodeById')) {
         $image = imagecreatetruecolor($width, $height);
 
         // Background and text colors
-        $bgColor = imagecolorallocate($image, rand(100,255), rand(100,255), rand(100,255));
+        $bgColor = imagecolorallocate($image, rand(100, 255), rand(100, 255), rand(100, 255));
         imagefilledrectangle($image, 0, 0, $width, $height, $bgColor);
 
         // Add noise: lines

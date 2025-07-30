@@ -166,7 +166,7 @@ class AuthRepository implements AuthInterface
                 'email'=>$user['email'],
                 'login_at'=>now(),
             ];
-            dispatchNotification($mailingdata,'LoginAlert');
+//            dispatchNotification($mailingdata,'LoginAlert');
             return [
                 'code' => 200,
                 'message' => 'Login successfully',
