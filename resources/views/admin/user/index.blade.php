@@ -81,7 +81,7 @@
    class="" title="Edit">
     {!! config('icons.edit') !!}
 </a>
-                                <form action="" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?')">
+                                <form action="{{ route('admin.user.destroy',$user->id)}}" method="DELETE" class="inline-block" onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
