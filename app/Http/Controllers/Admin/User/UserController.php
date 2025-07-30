@@ -13,7 +13,7 @@ class UserController extends Controller
         // Get filters from request
         $email = $request->input('email');
         $firstName = $request->input('first_name');
-        $surname = $request->input('surname');
+        $surname = $request->input('surname'); 
         $createdAt = $request->input('created_at');
         $perPage = $request->input('per_page', 3);
         $query = DB::table('admin_users');
