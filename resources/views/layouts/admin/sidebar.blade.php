@@ -21,7 +21,7 @@
           <span class="ml-3 font-semibold">People</span>
         </div>
         <div class="ml-10 space-y-1">
-          <a href="#" class="block p-1 hover:underline">Staff</a>
+          <a href="/admin/user" class="block p-1 hover:underline">Staff</a>
           <a href="#" class="block p-1 hover:underline">Users</a>
         </div>
       </div>

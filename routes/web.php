@@ -27,5 +27,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function ($router) {
 
     $router->get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     $router->get('user', [UserController::class, 'index'])->name('user.index');
+    $router->get('user/create', [UserController::class, 'create'])->name('user.create');
+    $router->post('user', [UserController::class, 'store'])->name('user.store');
+    $router->get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    $router->put('user/{id}', [UserController::class, 'update'])->name('user.update');
+    $router->delete('user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 });

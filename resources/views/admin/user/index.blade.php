@@ -12,9 +12,9 @@
 
         <!-- Header -->
         <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold">User Management</h2>
-            <a href="{{ route('admin.user.index') }}" class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
-                <i class="fas fa-plus mr-1 text-white"></i> Add User
+            <h2 class="text-xl font-semibold">Staff Management</h2>
+            <a href="{{ route('admin.user.create') }}" class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
+                <i class="fas fa-plus mr-1 text-white"></i> Add Staff
             </a>
         </div>
 
@@ -76,10 +76,10 @@
                             <td class="px-4 py-2">{{ $user->email }}</td>
                             <td class="px-4 py-2">{{ $user->created_at }}</td>
                             <td class="px-4 py-2 space-x-1 flex gap-1">
-                                <a href="{{ route('admin.user.index', $user->id) }}"
-                                    class="" title="Edit">
-                                     {!! config('icons.edit') !!}
-                                </a>
+                               <a href="{{ route('admin.user.edit', $user->id) }}"
+   class="" title="Edit">
+    {!! config('icons.edit') !!}
+</a>
                                 <form action="" method="POST" class="inline-block" onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
