@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\Admin\Role\RoleController;
+
 
 Route::get('/', function () {
     return [
@@ -30,5 +32,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function ($router) {
     $router->get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     $router->put('user/{id}', [UserController::class, 'update'])->name('user.update');
     $router->delete('user/{id}/delete', [UserController::class, 'destroy'])->name('user.destroy');
+      $router->get('role', [RoleController::class, 'index'])->name('role.index');
 
 });
