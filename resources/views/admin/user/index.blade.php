@@ -25,25 +25,26 @@
                     <label for="email" class="block  font-medium">Email</label>
                     <input type="text" id="email" name="email" value="{{ request('email') }}"
                         placeholder="Filter by email"
-                        class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                        class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                 </div>
                 <div>
                     <label for="first_name" class="block  font-medium">First Name</label>
                     <input type="text" id="first_name" name="first_name" value="{{ request('first_name') }}"
                         placeholder="Filter by first name"
-                        class="w-full mt-1 px-3 py-2 border rounded-md  focus:outline-none focus:ring focus:border-blue-300">
+                       class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                 </div>
                 <div>
                     <label for="surname" class="block  font-medium">Surname</label>
                     <input type="text" id="surname" name="surname" value="{{ request('surname') }}"
                         placeholder="Filter by surname"
-                        class="w-full mt-1 px-3 py-2 border rounded-md  focus:outline-none focus:ring focus:border-blue-300">
+                       class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                 </div>
                 <div>
                     <label for="created_at" class="block  font-medium">Created At</label>
                     <input type="text" id="created_at" name="created_at" value="{{ request('created_at') }}"
                         placeholder="Filter by date"
-                        class="datepicker w-full mt-1 px-3 py-2 border rounded-md  focus:outline-none focus:ring focus:border-blue-300">
+                        class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 "
+                        >
                 </div>
             </div>
             <div class="flex justify-end gap-2">

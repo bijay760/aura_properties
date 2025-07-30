@@ -9,9 +9,9 @@
     <div class="p-6 space-y-6">
         <div class="flex justify-between items-center">
             <h2 class="text-xl font-semibold">Edit Staff</h2>
-            <Button class="border border-black text-white px-4 py-2 rounded-md!">
-                 <a href="{{ route('admin.user.index') }}" class="flex text-black">{!! config('icons.arrow-left') !!} Back</a>  
-            </Button>
+             <a href="/admin/user"  class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
+                <i class="fas fa-arrow-left mr-1 text-white"></i> Back
+            </a>
         </div>
         <form method="POST" action="{{ route('admin.user.update', $user->id) }}" class="space-y-6">
             @csrf
@@ -21,24 +21,24 @@
                 <div>
                     <label for="first_name" class="block font-medium">First Name</label>
                     <input type="text" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" required
-                           class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                           class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                 </div>
                 <div>
                     <label for="surname" class="block font-medium">Surname</label>
                     <input type="text" name="surname" id="surname" value="{{ old('surname', $user->surname) }}" required
-                           class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                           class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                 </div>
                 <div>
                     <label for="email" class="block font-medium">Email</label>
                     <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
-                           class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                           class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                 </div>
                 <div>
                     <label for="password" class="block font-medium">Password</label>
                     <div class="relative">
                         <input type="password" name="password" id="password"
                                placeholder="Leave blank to keep current"
-                               class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300 pr-10">
+                             class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                         <span onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
                             <i id="togglePasswordIcon" class="fas fa-eye text-gray-500"></i>
                         </span>

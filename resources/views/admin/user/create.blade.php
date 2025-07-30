@@ -8,9 +8,9 @@
     <div class="p-6 space-y-6">
         <div class="flex justify-between items-center">
             <h2 class="text-xl font-semibold">Add New Staff</h2>
-           <Button class="border border-black text-white px-4 py-2 rounded-md!">
-                 <a href="{{ route('admin.user.index') }}" class="flex text-black">{!! config('icons.arrow-left') !!} Back</a>  
-            </Button>
+       <a href="/admin/user"  class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
+                <i class="fas fa-arrow-left mr-1 text-white"></i> Back
+            </a>
         </div>
 
        <form method="POST" action="{{ route('admin.user.store') }}" class="space-y-6">
@@ -20,17 +20,17 @@
         <div>
             <label for="first_name" class="block font-medium">First Name</label>
             <input type="text" name="first_name" id="first_name" required
-                   class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                 class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
         </div>
         <div>
             <label for="surname" class="block font-medium">Surname</label>
             <input type="text" name="surname" id="surname" required
-                   class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                 class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
         </div>
         <div>
             <label for="email" class="block font-medium">Email</label>
             <input type="email" name="email" id="email" required
-                   class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                 class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
         </div>
       <div>
     <label for="password" class="block font-medium">Password</label>
