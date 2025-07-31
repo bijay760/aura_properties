@@ -13,7 +13,7 @@
        {!! config('icons.dashboard') !!}
         <span class="ml-3 text-white font-semibold ">Dashboard</span>
       </a>
-       <a href="#" class="flex items-center p-2 rounded ">
+       <a href="/admin/role" class="flex items-center p-2 rounded ">
        {!! config('icons.shield') !!}
         <span class="ml-3 text-white font-semibold ">Roles</span>
       </a>

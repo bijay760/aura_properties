@@ -29,7 +29,7 @@
             </thead>
             <tbody class=" divide-y divide-gray-100">
                 @foreach($roles as $role)
-                    <tr>
+                    <tr class="border-b! border-gray-300 hover:bg-gray-50 transition ease-in-out duration-300">
                         <td class=" px-4 py-2">{{ $role->id }}</td>
                         <td class=" px-4 py-2">{{ $role->name }}</td>
                         <td class=" px-4 py-2">{{ $role->description }}</td>

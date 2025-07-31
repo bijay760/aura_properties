@@ -74,7 +74,7 @@
                     </thead>
                     <tbody class=" divide-y divide-gray-100">
                     @forelse($users as $user)
-                        <tr>
+                        <tr class="border-b! border-gray-300 hover:bg-gray-50 transition ease-in-out duration-300">
                             <td class="px-4 py-2">{{ $user->id }}</td>
                             <td class="px-4 py-2">{{ $user->first_name }} {{ $user->surname }}</td>
                             <td class="px-4 py-2">{{ $user->email }}</td>

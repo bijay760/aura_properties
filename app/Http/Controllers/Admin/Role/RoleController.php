@@ -13,6 +13,10 @@ class RoleController extends Controller
         $roles = DB::table('roles')->get();
         return view('admin.role.index',compact('roles'));
     }
+      public function create()
+    {
+        return view('admin.role.create');
+    }
   
 
 

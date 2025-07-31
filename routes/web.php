@@ -33,5 +33,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function ($router) {
     $router->put('user/{id}', [UserController::class, 'update'])->name('user.update');
     $router->delete('user/{id}/delete', [UserController::class, 'destroy'])->name('user.destroy');
       $router->get('role', [RoleController::class, 'index'])->name('role.index');
+        $router->get('role/create', [RoleController::class, 'create'])->name('role.create');
 
 });
