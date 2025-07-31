@@ -13,7 +13,7 @@
                     <i class="fas fa-arrow-left mr-1 text-white"></i> Back
                 </a>
             </div>
-            <form method="POST" action="{{ route('admin.user.update', $user->id) }}" class="space-y-6">
+            <form method="POST" action="{{ route('admin.staff.update', $user->id) }}" class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -35,6 +35,18 @@
                         <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
+                    <div>
+    <label for="role_id" class="block font-medium">Role</label>
+    <select name="role_id" id="role_id" required
+            class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
+        <option value="">-- Select Role --</option>
+        @foreach($roles as $role)
+            <option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>
+                {{ $role->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
                     <div>
                         <label for="password" class="block font-medium">Password</label>
                         <div class="relative">

@@ -13,7 +13,7 @@
         <!-- Header -->
         <div class="flex justify-between items-center">
             <h2 class="text-xl font-semibold">Roles Management</h2>
-            <a href="{{ route('admin.user.create') }}"
+            <a href="{{ route('admin.staff.create') }}"
               class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
                 <i class="fas fa-plus mr-1 text-white"></i> Add Role
             </a>

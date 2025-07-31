@@ -14,14 +14,14 @@
             <!-- Header -->
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold">Staff Management</h2>
-                <a href="{{ route('admin.user.create') }}"
+                <a href="{{ route('admin.staff.create') }}"
                    class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
                     <i class="fas fa-plus mr-1 text-white"></i> Add Staff
                 </a>
             </div>
 
             <!-- Filter Form -->
-            <form method="GET" action="{{ route('admin.user.index') }}" class="space-y-4">
+            <form method="GET" action="{{ route('admin.staff.index') }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label for="email" class="block  font-medium">Email</label>
@@ -48,12 +48,24 @@
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 "
                         >
                     </div>
+                    <div>
+    <label for="role" class="block font-medium">Role</label>
+    <select name="role" id="role"
+              class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
+        <option value="">All Roles</option>
+        @foreach($rolesList as $role)
+            <option value="{{ $role->id }}" {{ request('role') == $role->id ? 'selected' : '' }}>
+                {{ $role->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button type="submit" class="bg-black text-white px-4 py-2 rounded-md!">
                         <i class="fas fa-filter mr-1 text-white"></i> Filter
                     </button>
-                    <a href="{{ route('admin.user.index') }}"
+                    <a href="{{ route('admin.staff.index') }}"
                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
                         <i class="fas fa-sync-alt mr-1"></i> Reset
                     </a>
@@ -68,23 +80,25 @@
                         <th class="px-4 py-2 ">ID</th>
                         <th class="px-4 py-2">Name</th>
                         <th class="px-4 py-2">Email</th>
+                         <th class="px-4 py-2">Role</th>
                         <th class="px-4 py-2">Created At</th>
                         <th class="px-4 py-2">Actions</th>
                     </tr>
                     </thead>
                     <tbody class=" divide-y divide-gray-100">
-                    @forelse($users as $user)
+                    @forelse($staffs as $staff)
                         <tr class="border-b! border-gray-300 hover:bg-gray-50 transition ease-in-out duration-300">
-                            <td class="px-4 py-2">{{ $user->id }}</td>
-                            <td class="px-4 py-2">{{ $user->first_name }} {{ $user->surname }}</td>
-                            <td class="px-4 py-2">{{ $user->email }}</td>
-                            <td class="px-4 py-2">{{ $user->created_at }}</td>
+                            <td class="px-4 py-2">{{ $staff->id }}</td>
+                            <td class="px-4 py-2">{{ $staff->first_name }} {{ $staff->surname }}</td>
+                            <td class="px-4 py-2">{{ $staff->email }}</td>
+                             <td class="px-4 py-2">{{ $staff->role }}</td>
+                            <td class="px-4 py-2">{{ $staff->created_at }}</td>
                             <td class="px-4 py-2 space-x-1 flex gap-1">
-                                <a href="{{ route('admin.user.edit', $user->id) }}"
+                                <a href="{{ route('admin.staff.edit', $staff->id) }}"
                                    class="" title="Edit">
                                     {!! config('icons.edit') !!}
                                 </a>
-                                <form action="{{ route('admin.user.destroy',$user->id)}}" method="POST"
+                                <form action="{{ route('admin.staff.destroy',$staff->id)}}" method="POST"
                                       class="inline-block" onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
@@ -109,7 +123,7 @@
             </div> --}}
             <div class="flex justify-between items-center">
                 @php
-                    $paginator = $users;
+                    $paginator = $staffs;
                     $current = $paginator->currentPage();
                     $last = $paginator->lastPage();
                 @endphp

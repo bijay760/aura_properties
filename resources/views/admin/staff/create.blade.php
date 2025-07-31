@@ -13,7 +13,7 @@
                 </a>
             </div>
 
-            <form method="POST" action="{{ route('admin.user.store') }}" class="space-y-6">
+            <form method="POST" action="{{ route('admin.staff.store') }}" class="space-y-6">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -33,10 +33,19 @@
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
                     <div>
+    <label for="role_id" class="block font-medium">Select Role</label>
+    <select name="role_id" id="role_id" required    class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
+        <option value="">-- Select Role --</option>
+        @foreach($roles as $role)
+            <option value="{{ $role->id }}">{{ $role->name }}</option>
+        @endforeach
+    </select>
+</div>
+                    <div>
                         <label for="password" class="block font-medium">Password</label>
                         <div class="relative">
                             <input type="password" name="password" id="password"
-                                   class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300 pr-10"
+                                    class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 "
                                    required>
                             <span onclick="togglePassword()"
                                   class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
