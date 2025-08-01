@@ -98,8 +98,8 @@ class PostPropertyRequest extends FormRequest
             'amenities' => 'nullable|string|max:500',
             'flooring_type' => 'nullable|string|max:100',
             'landmark' => 'nullable|string|max:500',
-            'feature_images'=>'required|array',
-            'feature_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+//            'feature_images'=>'required|array',
+//            'feature_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
 
         // Add conditional rules for non-plot properties
