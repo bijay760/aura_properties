@@ -10,6 +10,7 @@ class UserController extends Controller
 {
    public function index(Request $request)
 {
+    $id = $request->input('id');
     $email = $request->input('email');
     $name = $request->input('name');
     $type = $request->input('type');
@@ -18,6 +19,9 @@ class UserController extends Controller
     $perPage = $request->input('per_page', 3);
 
     $query = DB::table('users');
+    if ($id) {
+        $query->where('users.id', $id);
+    }
 
     if ($email) {
         $query->where('users.email', 'like', "%$email%");
@@ -34,9 +38,8 @@ class UserController extends Controller
 
     $query->orderBy('users.created_at', 'desc');
     $users = $query->paginate($perPage);
-    $rolesList = DB::table('roles')->get();
 
-    return view('admin.user.index', compact('users', 'rolesList'));
+    return view('admin.user.index', compact('users'));
 }
     public function create()
     {

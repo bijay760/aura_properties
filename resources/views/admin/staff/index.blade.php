@@ -23,6 +23,12 @@
             <!-- Filter Form -->
             <form method="GET" action="{{ route('admin.staff.index') }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                       <div>
+                        <label for="id" class="block  font-medium">Id</label>
+                        <input type="text" id="id" name="id" value="{{ request('id') }}"
+                               placeholder="Filter by id"
+                               class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
+                    </div>
                     <div>
                         <label for="email" class="block  font-medium">Email</label>
                         <input type="text" id="email" name="email" value="{{ request('email') }}"
@@ -30,17 +36,12 @@
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
                     <div>
-                        <label for="first_name" class="block  font-medium">First Name</label>
-                        <input type="text" id="first_name" name="first_name" value="{{ request('first_name') }}"
-                               placeholder="Filter by first name"
+                        <label for="name" class="block  font-medium">Name</label>
+                        <input type="text" id="name" name="name" value="{{ request('name') }}"
+                               placeholder="Filter by name"
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
-                    <div>
-                        <label for="surname" class="block  font-medium">Surname</label>
-                        <input type="text" id="surname" name="surname" value="{{ request('surname') }}"
-                               placeholder="Filter by surname"
-                               class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
-                    </div>
+                 
                     <div>
                         <label for="created_at" class="block  font-medium">Created At</label>
                         <input type="text" id="created_at" name="created_at" value="{{ request('created_at') }}"
@@ -82,6 +83,9 @@
                         <th class="px-4 py-2">Email</th>
                          <th class="px-4 py-2">Role</th>
                         <th class="px-4 py-2">Created At</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Token</th>
+                        <th class="px-4 py-2">Login</th>
                         <th class="px-4 py-2">Actions</th>
                     </tr>
                     </thead>
@@ -93,6 +97,16 @@
                             <td class="px-4 py-2">{{ $staff->email }}</td>
                              <td class="px-4 py-2">{{ $staff->role }}</td>
                             <td class="px-4 py-2">{{ $staff->created_at }}</td>
+                           
+              <td class="px-4 py-2">
+    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $staff->email_verified_at ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+        {{ $staff->email_verified_at ? 'Verified' : 'Not Verified' }}
+    </span>
+</td>
+ <td class="px-4 py-2">{{ $staff->token }}</td>
+                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($staff->updated_at)->diffForHumans() }}</td>
+
+
                             <td class="px-4 py-2 space-x-1 flex gap-1">
                                 <a href="{{ route('admin.staff.edit', $staff->id) }}"
                                    class="" title="Edit">

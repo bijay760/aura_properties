@@ -10,25 +10,28 @@ class StaffController extends Controller
 {
    public function index(Request $request)
 {
+    $id = $request->input('id');
     $email = $request->input('email');
     $role = $request->input('role');
-    $firstName = $request->input('first_name');
-    $surname = $request->input('surname');
+    $name = $request->input('name');
     $createdAt = $request->input('created_at');
     $perPage = $request->input('per_page', 3);
 
     $query = DB::table('admin_users')
         ->leftJoin('roles', 'admin_users.role_id', '=', 'roles.id')
         ->select('admin_users.*', 'roles.name as role');
+    if ($id) {
+        $query->where('admin_users.id', $id);
+    }
 
     if ($email) {
         $query->where('admin_users.email', 'like', "%$email%");
     }
-    if ($firstName) {
-        $query->where('admin_users.first_name', 'like', "%$firstName%");
-    }
-    if ($surname) {
-        $query->where('admin_users.surname', 'like', "%$surname%");
+    if ($name) {
+        $query->where(function ($q) use ($name) {
+            $q->where('admin_users.first_name', 'like', "%$name%")
+              ->orWhere('admin_users.surname', 'like', "%$name%");
+        });
     }
     if ($role) {
         $query->where('admin_users.role_id', $role);
