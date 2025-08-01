@@ -34,12 +34,9 @@
       <div>
         <div class="flex items-center p-2 rounded">
            {!! config('icons.property') !!}
-          <span class="ml-3 font-semibold">Property</span>
+          <a href="/admin/property" class="ml-3 font-semibold">Property</a>
         </div>
-        <div class="ml-10 space-y-1">
-          <a href="#" class="block p-1 hover:underline">Land</a>
-          <a href="#" class="block p-1 hover:underline">Apartment</a>
-        </div>
+
       </div>
 
       <!-- Extra Item -->

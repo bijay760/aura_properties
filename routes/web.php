@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Staff\StaffController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\Admin\Property\PropertyController;
 
 
 Route::get('/', function () {
@@ -53,6 +54,12 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function ($router) {
         $router->get('{id}/edit', [UserController::class, 'edit'])->name('edit');
         $router->put('{id}', [UserController::class, 'update'])->name('update');
         $router->delete('{id}/delete', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+    // Property routes group
+    $router->group(['prefix' => 'property', 'as' => 'property.'], function ($router) {
+    $router->get('/', [PropertyController::class, 'index'])->name('index');
+    $router->get('create', [PropertyController::class, 'create'])->name('create');
     });
 
 });

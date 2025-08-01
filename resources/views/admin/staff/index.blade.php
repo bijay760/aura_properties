@@ -125,7 +125,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center px-4 py-2 text-gray-500">No users found</td>
+                            <td colspan="5" class="text-center px-4 py-2 text-gray-500">No staff found</td>
                         </tr>
                     @endforelse
                     </tbody>
