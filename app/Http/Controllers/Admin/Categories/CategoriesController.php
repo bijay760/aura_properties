@@ -83,5 +83,17 @@ public function update(Request $request)
 
     return redirect()->route('admin.categories.index')->with('success', 'Categories updated successfully.');
 }
+public function destroy($id)
+{
+    $linked = DB::table('properties')->where('category_id', $id)->exists();
+
+    if ($linked) {
+        return redirect()->route('admin.categories.index')->with('error', 'Cannot delete category linked to properties.');
+    }
+
+    DB::table('property_categories')->where('id', $id)->delete();
+
+    return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
+}
 
 }

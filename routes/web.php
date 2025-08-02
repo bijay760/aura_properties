@@ -71,6 +71,7 @@ $router->group(['prefix' => 'categories', 'as' => 'categories.'], function ($rou
     $router->post('/', [CategoriesController::class, 'store'])->name('store');
     $router->get('edit', [CategoriesController::class, 'edit'])->name('edit');
     $router->put('/', [CategoriesController::class, 'update'])->name('update');
+    $router->delete('{id}', [CategoriesController::class, 'destroy'])->name('destroy');
     
 });
 

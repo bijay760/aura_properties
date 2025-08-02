@@ -79,6 +79,7 @@
                                <th class=" px-4 py-2 text-left">Order</th> 
 
                     <th class=" px-4 py-2 text-left">Created At</th> 
+                    <th class=" px-4 py-2 text-left">Action</th> 
                 </tr>
                 
             </thead>
@@ -94,6 +95,17 @@
             </td>
             <td class="px-4 py-2">{{ $category->sort_order }}</td>
             <td class="px-4 py-2">{{ $category->created_at }}</td>
+            <td class="px-4 py-2">
+            <form action="{{ route('admin.categories.destroy',$category->id)}}" method="POST"
+                                      class="inline-block" onsubmit="return confirm('Are you sure?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="" title="Delete">
+                                        {!! config('icons.trash') !!}
+                                    </button>
+                                </form>
+                            </td>
         </tr>
     @empty
         <tr>

@@ -57,5 +57,29 @@
       <a class=" text-white" href="#" target="_blank">Aura Property</a>
     </div>
   </div>
+  <!-- Toast container -->
+<div id="toast" class="fixed top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded shadow-md opacity-0 pointer-events-none transition-opacity duration-300 z-50"></div>
+<script>
+  function showToast(message, duration = 3000) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'pointer-events-none');
+      toast.classList.remove('opacity-100');
+    }, duration);
+  }
+
+  // Show Laravel flash messages as toast on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    @if(session('success'))
+      showToast(@json(session('success')));
+    @elseif(session('error'))
+      showToast(@json(session('error')));
+    @endif
+  });
+</script>
 
 </div>
