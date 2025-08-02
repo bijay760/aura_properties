@@ -85,7 +85,7 @@ public function update(Request $request)
 }
 public function destroy($id)
 {
-    $linked = DB::table('properties')->where('category_id', $id)->exists();
+    $linked = DB::table('properties')->where('property_category_id', $id)->exists();
 
     if ($linked) {
         return redirect()->route('admin.categories.index')->with('error', 'Cannot delete category linked to properties.');
