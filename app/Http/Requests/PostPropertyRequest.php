@@ -103,7 +103,7 @@ class PostPropertyRequest extends FormRequest
         ];
 
         // Add conditional rules for non-plot properties
-        if ($this->input('property_category_id') != 5 ||$this->input('property_category_id') != 11 ||$this->input('property_category_id') != 12 || $this->input('property_category_id') != 13 || $this->input('property_category_id') != 14 || $this->input('property_category_id') != 6 || $this->input('property_category_id') != 7) {
+        if (!in_array($this->input('property_category_id'), [5, 6, 7, 11, 12, 13, 14])) {
             $rules = array_merge($rules, [
                 'bedrooms_count' => 'required|integer|min:0',
                 'bathrooms_count' => 'required|integer|min:0',
@@ -113,6 +113,7 @@ class PostPropertyRequest extends FormRequest
                 'total_floors' => 'integer|min:0',
             ]);
         }
+
 
         return $rules;
     }
