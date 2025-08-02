@@ -98,12 +98,12 @@ class PostPropertyRequest extends FormRequest
             'amenities' => 'nullable|string|max:500',
             'flooring_type' => 'nullable|string|max:100',
             'landmark' => 'nullable|string|max:500',
-//            'feature_images'=>'required|array',
-//            'feature_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'feature_images'=>'required|array',
+            'feature_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
 
         // Add conditional rules for non-plot properties
-        if ($this->input('property_category_id') != 5 ||$this->input('property_category_id') != 11 ||$this->input('property_category_id') != 12 || $this->input('property_category_id') != 13 || $this->input('property_category_id') != 14) {
+        if ($this->input('property_category_id') != 5 ||$this->input('property_category_id') != 11 ||$this->input('property_category_id') != 12 || $this->input('property_category_id') != 13 || $this->input('property_category_id') != 14 || $this->input('property_category_id') != 6 || $this->input('property_category_id') != 7) {
             $rules = array_merge($rules, [
                 'bedrooms_count' => 'required|integer|min:0',
                 'bathrooms_count' => 'required|integer|min:0',
