@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Staff\StaffController;
 use App\Http\Controllers\Admin\Role\RoleController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Property\PropertyController;
+use App\Http\Controllers\Admin\Categories\CategoriesController;
 
 
 Route::get('/', function () {
@@ -61,5 +62,16 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function ($router) {
     $router->get('/', [PropertyController::class, 'index'])->name('index');
     $router->get('create', [PropertyController::class, 'create'])->name('create');
     });
+
+
+   // Categories routes group
+$router->group(['prefix' => 'categories', 'as' => 'categories.'], function ($router) {
+    $router->get('/', [CategoriesController::class, 'index'])->name('index');
+    $router->get('create', [CategoriesController::class, 'create'])->name('create');
+    $router->post('/', [CategoriesController::class, 'store'])->name('store');
+    $router->get('edit', [CategoriesController::class, 'edit'])->name('edit');
+    $router->put('/', [CategoriesController::class, 'update'])->name('update');
+    
+});
 
 });

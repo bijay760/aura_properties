@@ -36,7 +36,12 @@
            {!! config('icons.property') !!}
           <a href="/admin/property" class="ml-3 font-semibold">Property</a>
         </div>
-
+      </div>
+      <div>
+        <div class="flex items-center p-2 rounded">
+           {!! config('icons.layer') !!}
+          <a href="/admin/categories" class="ml-3 font-semibold">Categories</a>
+        </div>
       </div>
 
       <!-- Extra Item -->
