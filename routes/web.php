@@ -24,7 +24,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function ($router) {
         return [
             'code' => 200,
             'message' => 'OK',
-            'data' => [],
+            'data' => [
+                'temporary redirect url'=>'https://property.servermaster.online/admin/user'
+            ],
             'status' => true
         ];
     });
@@ -72,7 +74,7 @@ $router->group(['prefix' => 'categories', 'as' => 'categories.'], function ($rou
     $router->get('edit', [CategoriesController::class, 'edit'])->name('edit');
     $router->put('/', [CategoriesController::class, 'update'])->name('update');
     $router->delete('{id}', [CategoriesController::class, 'destroy'])->name('destroy');
-    
+
 });
 
 });
