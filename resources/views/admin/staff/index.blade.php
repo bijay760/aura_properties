@@ -8,20 +8,22 @@
 @endsection
 
 @section('content')
- <div class="min-h-screen">
-    <div class="p-6 space-y-6">
-        <!-- Header -->
-        <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold">Users Management</h2>
-            <a href="{{ route('admin.user.create') }}"
-              class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
-                <i class="fas fa-plus mr-1 text-white"></i> Add User
-            </a>
-        </div>
-           <!-- Filter Form -->
-            <form method="GET" action="{{ route('admin.user.index') }}" class="space-y-4">
+    <div class="min-h-screen">
+        <div class=" p-6 space-y-6">
+
+            <!-- Header -->
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Staff Management</h2>
+                <a href="{{ route('admin.staff.create') }}"
+                   class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
+                    <i class="fas fa-plus mr-1 text-white"></i> Add Staff
+                </a>
+            </div>
+
+            <!-- Filter Form -->
+            <form method="GET" action="{{ route('admin.staff.index') }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                     <div>
+                       <div>
                         <label for="id" class="block  font-medium">Id</label>
                         <input type="text" id="id" name="id" value="{{ request('id') }}"
                                placeholder="Filter by id"
@@ -34,11 +36,12 @@
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
                     <div>
-                        <label for="name" class="block  font-medium">name</label>
+                        <label for="name" class="block  font-medium">Name</label>
                         <input type="text" id="name" name="name" value="{{ request('name') }}"
-                               placeholder="Filter by  name"
+                               placeholder="Filter by name"
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
+                 
                     <div>
                         <label for="created_at" class="block  font-medium">Created At</label>
                         <input type="text" id="created_at" name="created_at" value="{{ request('created_at') }}"
@@ -47,13 +50,15 @@
                         >
                     </div>
                     <div>
-    <label for="type" class="block font-medium">Account</label>
-    <select name="type" id="type"
+    <label for="role" class="block font-medium">Role</label>
+    <select name="role" id="role"
               class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
-          <option value="">All</option>
-<option value="1" {{ request('type') == 1 ? 'selected' : '' }}>Buyer</option>
-<option value="2" {{ request('type') == 2 ? 'selected' : '' }}>Agent</option>
-<option value="3" {{ request('type') == 3 ? 'selected' : '' }}>Builder</option>
+        <option value="">All Roles</option>
+        @foreach($rolesList as $role)
+            <option value="{{ $role->id }}" {{ request('role') == $role->id ? 'selected' : '' }}>
+                {{ $role->name }}
+            </option>
+        @endforeach
     </select>
 </div>
                 </div>
@@ -61,13 +66,14 @@
                     <button type="submit" class="bg-black text-white px-4 py-2 rounded-md!">
                         <i class="fas fa-filter mr-1 text-white"></i> Filter
                     </button>
-                    <a href="{{ route('admin.user.index') }}"
+                    <a href="{{ route('admin.staff.index') }}"
                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
                         <i class="fas fa-sync-alt mr-1"></i> Reset
                     </a>
                 </div>
             </form>
-         <!-- User Table -->
+
+            <!-- Staff Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead class="bg-black text-left  font-semibold text-white">
@@ -75,50 +81,38 @@
                         <th class="px-4 py-2 ">ID</th>
                         <th class="px-4 py-2">Name</th>
                         <th class="px-4 py-2">Email</th>
-                         <th class="px-4 py-2">Type</th>
-                        <th class="px-4 py-2">Created</th>
-                           <th class="px-4 py-2">Status</th>
-                            <th class="px-4 py-2">Token</th>
-                            <th class="px-4 py-2">Login</th>
-                            <th class="px-4 py-2">OTP</th>
-                            <th class="px-4 py-2">Phone</th>
+                         <th class="px-4 py-2">Role</th>
+                        <th class="px-4 py-2">Created At</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Token</th>
+                        <th class="px-4 py-2">Login</th>
                         <th class="px-4 py-2">Actions</th>
-
                     </tr>
                     </thead>
                     <tbody class=" divide-y divide-gray-100">
-                    @forelse($users as $user)
+                    @forelse($staffs as $staff)
                         <tr class="border-b! border-gray-300 hover:bg-gray-50 transition ease-in-out duration-300">
-                            <td class="px-4 py-2">{{ $user->id }}</td>
-                            <td class="px-4 py-2">{{ $user->name }}</td>
-                            <td class="px-4 py-2">{{ $user->email }}</td>
-                             <td class="px-4 py-2">
-    @if($user->type == 1)
-        Buyer
-    @elseif($user->type == 2)
-        Agent
-    @elseif($user->type == 3)
-        Builder
-    @else
-        N/A
-    @endif
-</td>
-    <td class="px-4 py-2">{{ $user->created_at }}</td>
+                            <td class="px-4 py-2">{{ $staff->id }}</td>
+                            <td class="px-4 py-2">{{ $staff->first_name }} {{ $staff->surname }}</td>
+                            <td class="px-4 py-2">{{ $staff->email }}</td>
+                             <td class="px-4 py-2">{{ $staff->role }}</td>
+                            <td class="px-4 py-2">{{ $staff->created_at }}</td>
+                           
               <td class="px-4 py-2">
-    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $user->email_verified_at ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-        {{ $user->email_verified_at ? 'Verified' : 'Not Verified' }}
+    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $staff->email_verified_at ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+        {{ $staff->email_verified_at ? 'Verified' : 'Not Verified' }}
     </span>
 </td>
-                            <td class="px-4 py-2">{{ $user->remember_token }}</td>
-                            <td class="px-4 py-2">{{ \Carbon\Carbon::parse($user->updated_at)->diffForHumans() }}</td>
-                            <td class="px-4 py-2">{{ $user->otp }}</td>
-                            <td class="px-4 py-2">{{ $user->phone }}</td>
+ <td class="px-4 py-2">{{ $staff->token }}</td>
+                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($staff->updated_at)->diffForHumans() }}</td>
+
+
                             <td class="px-4 py-2 space-x-1 flex gap-1">
-                                <a href="{{ route('admin.user.edit', $user->id) }}"
+                                <a href="{{ route('admin.staff.edit', $staff->id) }}"
                                    class="" title="Edit">
                                     {!! config('icons.edit') !!}
                                 </a>
-                                <form action="{{ route('admin.user.destroy',$user->id)}}" method="POST"
+                                <form action="{{ route('admin.staff.destroy',$staff->id)}}" method="POST"
                                       class="inline-block" onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
@@ -131,16 +125,16 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center px-4 py-2 text-gray-500">No users found</td>
+                            <td colspan="5" class="text-center px-4 py-2 text-gray-500">No staff found</td>
                         </tr>
                     @endforelse
                     </tbody>
                 </table>
             </div>
-            {{-- paginator  --}}
+            <!-- Pagination -->
 <div class="flex justify-between items-center">
     @php
-        $paginator = $users;
+        $paginator = $staffs;
         $current = $paginator->currentPage();
         $last = $paginator->lastPage();
     @endphp
@@ -206,7 +200,22 @@
         </div>
     @endif
 </div>
-         
+
+
+        </div>
     </div>
-</div>
+@endsection
+
+@section('page-specific-scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('.datepicker').datepicker({
+                orientation: "bottom",
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
 @endsection

@@ -4,7 +4,7 @@
           rel="stylesheet">
 @endsection
 @section('title')
-    User Management
+    Roles Management
 @endsection
 
 @section('content')
@@ -12,33 +12,37 @@
     <div class="p-6 space-y-6">
         <!-- Header -->
         <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold">Users Management</h2>
-            <a href="{{ route('admin.user.create') }}"
+            <h2 class="text-xl font-semibold">Categories Management</h2>
+            <div class="flex space-x-2">
+             
+                <a href="{{ route('admin.categories.edit') }}"
               class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
-                <i class="fas fa-plus mr-1 text-white"></i> Add User
+                <i class="fas fa-pen mr-1 text-white"></i> Update Category
             </a>
+                 <a href="{{ route('admin.categories.create') }}"
+              class="bg-neutral-800 text-white px-4 py-2 rounded-md hover:bg-neutral-700">
+                <i class="fas fa-plus mr-1 text-white"></i> Add Category
+            </a>
+
+            </div>
+          
         </div>
-           <!-- Filter Form -->
-            <form method="GET" action="{{ route('admin.user.index') }}" class="space-y-4">
+          <!-- Filter Form -->
+            <form method="GET" action="{{ route('admin.categories.index') }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                     <div>
+                       <div>
                         <label for="id" class="block  font-medium">Id</label>
                         <input type="text" id="id" name="id" value="{{ request('id') }}"
                                placeholder="Filter by id"
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
                     <div>
-                        <label for="email" class="block  font-medium">Email</label>
-                        <input type="text" id="email" name="email" value="{{ request('email') }}"
-                               placeholder="Filter by email"
-                               class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
-                    </div>
-                    <div>
-                        <label for="name" class="block  font-medium">name</label>
+                        <label for="name" class="block  font-medium">Name</label>
                         <input type="text" id="name" name="name" value="{{ request('name') }}"
-                               placeholder="Filter by  name"
+                               placeholder="Filter by name"
                                class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
                     </div>
+                 
                     <div>
                         <label for="created_at" class="block  font-medium">Created At</label>
                         <input type="text" id="created_at" name="created_at" value="{{ request('created_at') }}"
@@ -47,78 +51,52 @@
                         >
                     </div>
                     <div>
-    <label for="type" class="block font-medium">Account</label>
-    <select name="type" id="type"
-              class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md  focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0 ">
-          <option value="">All</option>
-<option value="1" {{ request('type') == 1 ? 'selected' : '' }}>Buyer</option>
-<option value="2" {{ request('type') == 2 ? 'selected' : '' }}>Agent</option>
-<option value="3" {{ request('type') == 3 ? 'selected' : '' }}>Builder</option>
-    </select>
+    <label for="status" class="block font-medium">Status</label>
+   <select name="status" id="status"
+    class="w-full mt-1 px-3 py-2 border! border-neutral-400 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-0">
+    <option value="">All</option>
+    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
+    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inactive</option>
+</select>
 </div>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button type="submit" class="bg-black text-white px-4 py-2 rounded-md!">
                         <i class="fas fa-filter mr-1 text-white"></i> Filter
                     </button>
-                    <a href="{{ route('admin.user.index') }}"
+                    <a href="{{ route('admin.categories.index') }}"
                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">
                         <i class="fas fa-sync-alt mr-1"></i> Reset
                     </a>
                 </div>
             </form>
-         <!-- User Table -->
-            <div class="overflow-x-auto">
-                <table class="min-w-full">
+        <table class="min-w-full">
                     <thead class="bg-black text-left  font-semibold text-white">
                     <tr class="">
-                        <th class="px-4 py-2 ">ID</th>
-                        <th class="px-4 py-2">Name</th>
-                        <th class="px-4 py-2">Email</th>
-                         <th class="px-4 py-2">Type</th>
-                        <th class="px-4 py-2">Created</th>
-                           <th class="px-4 py-2">Status</th>
-                            <th class="px-4 py-2">Token</th>
-                            <th class="px-4 py-2">Login</th>
-                            <th class="px-4 py-2">OTP</th>
-                            <th class="px-4 py-2">Phone</th>
-                        <th class="px-4 py-2">Actions</th>
+                    <th class=" px-4 py-2 text-left">ID</th>
+                    <th class=" px-4 py-2 text-left">Name</th>
+                    <th class=" px-4 py-2 text-left">Status</th>
+                               <th class=" px-4 py-2 text-left">Order</th> 
 
-                    </tr>
-                    </thead>
-                    <tbody class=" divide-y divide-gray-100">
-                    @forelse($users as $user)
-                        <tr class="border-b! border-gray-300 hover:bg-gray-50 transition ease-in-out duration-300">
-                            <td class="px-4 py-2">{{ $user->id }}</td>
-                            <td class="px-4 py-2">{{ $user->name }}</td>
-                            <td class="px-4 py-2">{{ $user->email }}</td>
-                             <td class="px-4 py-2">
-    @if($user->type == 1)
-        Buyer
-    @elseif($user->type == 2)
-        Agent
-    @elseif($user->type == 3)
-        Builder
-    @else
-        N/A
-    @endif
-</td>
-    <td class="px-4 py-2">{{ $user->created_at }}</td>
-              <td class="px-4 py-2">
-    <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $user->email_verified_at ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-        {{ $user->email_verified_at ? 'Verified' : 'Not Verified' }}
-    </span>
-</td>
-                            <td class="px-4 py-2">{{ $user->remember_token }}</td>
-                            <td class="px-4 py-2">{{ \Carbon\Carbon::parse($user->updated_at)->diffForHumans() }}</td>
-                            <td class="px-4 py-2">{{ $user->otp }}</td>
-                            <td class="px-4 py-2">{{ $user->phone }}</td>
-                            <td class="px-4 py-2 space-x-1 flex gap-1">
-                                <a href="{{ route('admin.user.edit', $user->id) }}"
-                                   class="" title="Edit">
-                                    {!! config('icons.edit') !!}
-                                </a>
-                                <form action="{{ route('admin.user.destroy',$user->id)}}" method="POST"
+                    <th class=" px-4 py-2 text-left">Created At</th> 
+                    <th class=" px-4 py-2 text-left">Action</th> 
+                </tr>
+                
+            </thead>
+          <tbody class="divide-y divide-gray-100">
+    @forelse($categories as $category)
+        <tr class="border-b! border-gray-300 hover:bg-gray-50 transition ease-in-out duration-300">
+            <td class="px-4 py-2">{{ $category->id }}</td>
+            <td class="px-4 py-2">{{ $category->name }}</td>
+            <td class="px-4 py-2">
+                <span class="px-2 py-1 text-sm rounded-full {{ $category->status ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    {{ $category->status ? 'Active' : 'Inactive' }}
+                </span>
+            </td>
+            <td class="px-4 py-2">{{ $category->sort_order }}</td>
+            <td class="px-4 py-2">{{ $category->created_at }}</td>
+            <td class="px-4 py-2">
+            <form action="{{ route('admin.categories.destroy',$category->id)}}" method="POST"
                                       class="inline-block" onsubmit="return confirm('Are you sure?')">
                                     @csrf
                                     @method('DELETE')
@@ -128,19 +106,19 @@
                                     </button>
                                 </form>
                             </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center px-4 py-2 text-gray-500">No users found</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            </div>
-            {{-- paginator  --}}
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5" class="text-center px-4 py-2 text-gray-500">No Category found</td>
+        </tr>
+    @endforelse
+</tbody>
+
+        </table>
+          <!-- Pagination -->
 <div class="flex justify-between items-center">
     @php
-        $paginator = $users;
+        $paginator = $categories;
         $current = $paginator->currentPage();
         $last = $paginator->lastPage();
     @endphp
@@ -206,7 +184,6 @@
         </div>
     @endif
 </div>
-         
     </div>
 </div>
 @endsection
