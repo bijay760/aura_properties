@@ -1,22 +1,54 @@
 <!--begin::Head-->
 <head>
-    <base href="">
+    <base href="" />
     <meta charset="utf-8" />
-    <title>@yield('title') - {{config("app.name")}}</title>
+    <title>@yield('title') - {{ config("app.name") }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <link rel="canonical" href="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:type" content="image/jpeg" />
     <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+    />
     <!--end::Fonts-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
-    <link href="{{ asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
-       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  
+    <link
+        href="{{ asset('assets/plugins/global/plugins.bundle.css') }}"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <link
+        href="{{ asset('assets/css/style.bundle.css') }}"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <link
+        rel="stylesheet"
+        href="{{ asset('resources/css/css/vendors/litepicker.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="{{ asset('resources/css/css/vendors/tiny-slider.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="{{ asset('resources/css/css/vendors/tippy.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="{{ asset('resources/css/css/vendors/simplebar.css') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="{{ asset('resources/css/css/themes/echo.css') }}"
+    />
+
+    <!-- END: CSS Assets-->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!--end::Global Stylesheets Bundle-->
 
@@ -36,8 +68,6 @@
             cursor: default !important;
         }
     </style>
-    @if (env("APP_ENV") == 'local')
-        @vite('resources/js/app.js')
-    @endif
+    @if (env("APP_ENV") == 'local') @vite('resources/js/app.js') @endif
 </head>
 <!--end::Head-->

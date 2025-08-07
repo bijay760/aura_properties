@@ -77,4 +77,11 @@ $router->group(['prefix' => 'categories', 'as' => 'categories.'], function ($rou
 
 });
 
+//demo
+$router->get('/demo', function () {
+    return view('demo');
+
+});
+
+
 });
