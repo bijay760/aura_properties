@@ -8,7 +8,7 @@ WHERE TABLE_SCHEMA = 'aura_properties';
 
 
 alter table properties
-    modify listing_type enum ('sale', 'rent') not null;
+    modify listing_type enum ('sale', 'rent','buy') not null;
 
 
 

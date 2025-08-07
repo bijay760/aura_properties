@@ -533,7 +533,7 @@ class PropertyRepository implements PropertiesInterface
                         'is_furnishing' => $request->is_furnishing,
                         'floor_count' => $request->floor_count,
                         'total_floors' => $request->total_floors,
-                        'pantry_cafeteria' => $request->pantry_cafeteria ,
+                        'pantry_cafeteria' => $request->pantry_cafeteria,
                         'personal_washroom' => $request->personal_washroom,
                         'is_main_road_facing' => $request->is_main_road_facing,
                         'additional_rooms' => json_encode($request->additional_rooms),
@@ -567,7 +567,7 @@ class PropertyRepository implements PropertiesInterface
                         'data' => []
                     ];
                 }
-            }elseif ($request->property_category_id == 11) {
+            } elseif ($request->property_category_id == 11) {
                 $uploadedFiles = uploadFiles($request->file('feature_images'), 'uploads/gallery');
                 try {
                     $amenities = $request->amenities;
@@ -1634,15 +1634,15 @@ class PropertyRepository implements PropertiesInterface
                     'project_name' => $request->project_name ?? $property->project_name,
                     'address' => $request->address ?? $property->address,
                     'total_numbers' => $request->total_numbers ?? $property->total_numbers,
-                    'bedrooms_count' => $request->bedrooms_count?? $property->bedrooms_count,
-                    'bathroom_count' => $request->bathrooms_count?? $property->bathrooms_count,
-                    'balcony_count' => $request->balcony_count?? $property->balcony_count,
-                    'is_furnishing' => $request->is_furnishing?? $property->is_furnishing,
-                    'floor_count' => $request->floor_count?? $property->floor_count,
-                    'total_floors' => $request->total_floors?? $property->total_floors,
+                    'bedrooms_count' => $request->bedrooms_count ?? $property->bedrooms_count,
+                    'bathroom_count' => $request->bathrooms_count ?? $property->bathrooms_count,
+                    'balcony_count' => $request->balcony_count ?? $property->balcony_count,
+                    'is_furnishing' => $request->is_furnishing ?? $property->is_furnishing,
+                    'floor_count' => $request->floor_count ?? $property->floor_count,
+                    'total_floors' => $request->total_floors ?? $property->total_floors,
                     'pantry_cafeteria' => $request->pantry_cafeteria ?? $property->pantry_cafeteria,
                     'personal_washroom' => $request->personal_washroom ?? $property->personal_washroom,
-                    'is_main_road_facing' => $request->is_main_road_facing?? $property->is_main_road_facing,
+                    'is_main_road_facing' => $request->is_main_road_facing ?? $property->is_main_road_facing,
                     'additional_rooms' => $request->has('additional_rooms') ? json_encode($request->additional_rooms) : $property->additional_rooms,
                     'overlooking' => $request->has('overlooking') ? json_encode($request->overlooking) : $property->overlooking,
                     'directional_facing' => $request->directional_facing ?? $property->directional_facing,
@@ -1675,7 +1675,7 @@ class PropertyRepository implements PropertiesInterface
                     'data' => []
                 ];
             }
-        }elseif ($request->property_category_id == 12) {
+        } elseif ($request->property_category_id == 12) {
             try {
 
                 $property = DB::table('properties')->where('id', $request->property_id)->where('user_id', a_auth('user_id'))->first();
@@ -1729,12 +1729,12 @@ class PropertyRepository implements PropertiesInterface
                     'project_name' => $request->project_name ?? $property->project_name,
                     'address' => $request->address ?? $property->address,
                     'total_numbers' => $request->total_numbers ?? $property->total_numbers,
-                    'near_by_business' => $request->near_by_business??$property->near_by_business,
-                    'floor_allowed_for_construction' => $request->floor_allowed_for_construction??$property->floor_allowed_for_construction,
-                    'number_of_open_side' => $request->number_of_open_side??$property->number_of_open_side,
-                    'any_construction_done' => $request->any_construction_done??$property->any_construction_done,
-                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot??$property->width_of_road_facing_plot,
-                    'boundary_wall_made' => $request->boundary_wall_made??$property->boundary_wall_made,
+                    'near_by_business' => $request->near_by_business ?? $property->near_by_business,
+                    'floor_allowed_for_construction' => $request->floor_allowed_for_construction ?? $property->floor_allowed_for_construction,
+                    'number_of_open_side' => $request->number_of_open_side ?? $property->number_of_open_side,
+                    'any_construction_done' => $request->any_construction_done ?? $property->any_construction_done,
+                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot ?? $property->width_of_road_facing_plot,
+                    'boundary_wall_made' => $request->boundary_wall_made ?? $property->boundary_wall_made,
                     'additional_rooms' => $request->has('additional_rooms') ? json_encode($request->additional_rooms) : $property->additional_rooms,
                     'overlooking' => $request->has('overlooking') ? json_encode($request->overlooking) : $property->overlooking,
                     'directional_facing' => $request->directional_facing ?? $property->directional_facing,
@@ -1821,7 +1821,7 @@ class PropertyRepository implements PropertiesInterface
                     'project_name' => $request->project_name ?? $property->project_name,
                     'address' => $request->address ?? $property->address,
                     'total_numbers' => $request->total_numbers ?? $property->total_numbers,
-                    'total_floors' => $request->total_floors??$property->total_floors,
+                    'total_floors' => $request->total_floors ?? $property->total_floors,
                     'additional_rooms' => $request->has('additional_rooms') ? json_encode($request->additional_rooms) : $property->additional_rooms,
                     'overlooking' => $request->has('overlooking') ? json_encode($request->overlooking) : $property->overlooking,
                     'directional_facing' => $request->directional_facing ?? $property->directional_facing,
@@ -1908,9 +1908,9 @@ class PropertyRepository implements PropertiesInterface
                     'project_name' => $request->project_name ?? $property->project_name,
                     'address' => $request->address ?? $property->address,
                     'total_numbers' => $request->total_numbers ?? $property->total_numbers,
-                    'boundary_wall_made' => $request->boundary_wall_made??$property->boundary_wall_made,
-                    'number_of_open_side' => $request->number_of_open_side??$property->number_of_open_side,
-                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot??$property->width_of_road_facing_plot,
+                    'boundary_wall_made' => $request->boundary_wall_made ?? $property->boundary_wall_made,
+                    'number_of_open_side' => $request->number_of_open_side ?? $property->number_of_open_side,
+                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot ?? $property->width_of_road_facing_plot,
                     'additional_rooms' => $request->has('additional_rooms') ? json_encode($request->additional_rooms) : $property->additional_rooms,
                     'overlooking' => $request->has('overlooking') ? json_encode($request->overlooking) : $property->overlooking,
                     'directional_facing' => $request->directional_facing ?? $property->directional_facing,
@@ -1997,12 +1997,12 @@ class PropertyRepository implements PropertiesInterface
                     'project_name' => $request->project_name ?? $property->project_name,
                     'address' => $request->address ?? $property->address,
                     'total_numbers' => $request->total_numbers ?? $property->total_numbers,
-                    'bedrooms_count' => $request->bedrooms_count??$property->bedrooms_count,
-                    'bathroom_count' => $request->bathrooms_count??$property->bathroom_count,
-                    'balcony_count' => $request->balcony_count??$property->balcony_count,
-                    'is_furnishing' => $request->is_furnishing??$property->is_furnishing,
-                    'number_of_open_side' => $request->number_of_open_side??$property->number_of_open_side,
-                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot??$property->width_of_road_facing_plot,
+                    'bedrooms_count' => $request->bedrooms_count ?? $property->bedrooms_count,
+                    'bathroom_count' => $request->bathrooms_count ?? $property->bathroom_count,
+                    'balcony_count' => $request->balcony_count ?? $property->balcony_count,
+                    'is_furnishing' => $request->is_furnishing ?? $property->is_furnishing,
+                    'number_of_open_side' => $request->number_of_open_side ?? $property->number_of_open_side,
+                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot ?? $property->width_of_road_facing_plot,
                     'additional_rooms' => $request->has('additional_rooms') ? json_encode($request->additional_rooms) : $property->additional_rooms,
                     'overlooking' => $request->has('overlooking') ? json_encode($request->overlooking) : $property->overlooking,
                     'directional_facing' => $request->directional_facing ?? $property->directional_facing,
@@ -2035,7 +2035,7 @@ class PropertyRepository implements PropertiesInterface
                     'data' => []
                 ];
             }
-        }elseif ($request->property_category_id == 11) {
+        } elseif ($request->property_category_id == 11) {
             try {
 
                 $property = DB::table('properties')->where('id', $request->property_id)->where('user_id', a_auth('user_id'))->first();
@@ -2089,11 +2089,11 @@ class PropertyRepository implements PropertiesInterface
                     'project_name' => $request->project_name ?? $property->project_name,
                     'address' => $request->address ?? $property->address,
                     'total_numbers' => $request->total_numbers ?? $property->total_numbers,
-                    'near_by_business' => $request->near_by_business??$property->near_by_business,
-                    'floor_allowed_for_construction' => $request->floor_allowed_for_construction??$property->floor_allowed_for_construction,
-                    'number_of_open_side' => $request->number_of_open_side??$property->number_of_open_side,
-                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot??$property->width_of_road_facing_plot,
-                    'boundary_wall_made' => $request->boundary_wall_made??$property->boundary_wall_made,
+                    'near_by_business' => $request->near_by_business ?? $property->near_by_business,
+                    'floor_allowed_for_construction' => $request->floor_allowed_for_construction ?? $property->floor_allowed_for_construction,
+                    'number_of_open_side' => $request->number_of_open_side ?? $property->number_of_open_side,
+                    'width_of_road_facing_plot' => $request->width_of_road_facing_plot ?? $property->width_of_road_facing_plot,
+                    'boundary_wall_made' => $request->boundary_wall_made ?? $property->boundary_wall_made,
                     'additional_rooms' => $request->has('additional_rooms') ? json_encode($request->additional_rooms) : $property->additional_rooms,
                     'overlooking' => $request->has('overlooking') ? json_encode($request->overlooking) : $property->overlooking,
                     'directional_facing' => $request->directional_facing ?? $property->directional_facing,
@@ -2134,5 +2134,116 @@ class PropertyRepository implements PropertiesInterface
                 'data' => []
             ];
         }
+    }
+
+
+    public function property_listing(Request $request): array
+    {
+        $type = $request->type ?? 'buy';
+
+        if ($type == 'buy') {
+            $type = 'sale';
+        } elseif ($type == 'sale') {
+            $type = 'buy';
+        }
+
+
+        $price_range_min = $request->price_range_min ?? 0;
+        $price_range_max = $request->price_range_max ?? 0;
+        $number_of_bedrooms = $request->number_of_bedrooms ?? 0;
+        $property_type = $request->property_category_id ?? null;
+        $area_min = $request->min_area_in_sq_feet ?? 0;
+        $area_max = $request->max_area_in_sq_feet ?? 0;
+        $furnishing_status = $request->furnishing_status ?? null;
+        $page = $request->page ?? 1;
+        $limit = $request->limit ?? 10;
+        $query = DB::table('properties')->where('status', 'active');
+        $total = (clone $query)->count();
+        $query->offset(($page - 1) * $limit)
+            ->limit($limit);
+
+        if ($price_range_min > 0) {
+            $query->where('total_price', '>=', $price_range_min);
+        }
+        if ($price_range_max > 0) {
+            $query->where('total_price', '<=', $price_range_max);
+        }
+        if ($area_min > 0) {
+            $query->where('covered_area', '>=', $area_min);
+        }
+        if ($area_max > 0) {
+            $query->where('covered_area', '<=', $area_max);
+        }
+        if ($type) {
+            $query->where('listing_type', $type);
+        }
+
+        if ($number_of_bedrooms > 0) {
+            $query->where('bedrooms_count', '=', $number_of_bedrooms);
+        }
+
+        if (!empty($property_type)) {
+            $query->where('property_category_id', $property_type);
+        }
+        if ($furnishing_status >= 0 && $furnishing_status != null) {
+            $query->where('is_furnishing', $furnishing_status);
+        }
+        $properties = $query->get()->map(function ($property) {
+            switch ($property->property_category_id) {
+                case 1:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'project_name' => $property->project_name,
+                        'address' => $property->address,
+                        'total_numbers' => $property->total_numbers,
+                        'bedrooms_count' => $property->bedrooms_count,
+                        'bathroom_count' => $property->bathroom_count,
+                        'balcony_count' => $property->balcony_count,
+                        'is_furnishing' => $property->is_furnishing,
+                        'floor_count' => $property->floor_count,
+                        'total_floors' => $property->total_floors,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+                default:
+                    return [
+                        'property_category_id' => $property->property_category_id,
+                        'remaining' => 'in progress',
+                    ];
+            }
+        })->values();
+
+        $totalPages = ceil($total / $limit);
+        return [
+            'code' => 200,
+            'status' => true,
+            'message' => 'fetched',
+            'data' => ['properties' => json_decode($properties),
+                'current_page' => (int)$page,
+                'total_pages' => (int)$totalPages,
+                'total_items' => (int)$total],
+        ];
+
+
     }
 }

@@ -106,7 +106,7 @@ class EditPropertyRequest extends FormRequest
                 'bedrooms_count' => 'required|integer|min:0',
                 'bathrooms_count' => 'required|integer|min:0',
                 'balcony_count' => 'required|integer|min:0',
-                'is_furnishing' => 'required|boolean',
+                'is_furnishing' => 'required|integer|in:0,1,2',
                 'floor_count' => 'integer|min:0',
                 'total_floors' => 'integer|min:0',
             ]);
@@ -178,7 +178,6 @@ class EditPropertyRequest extends FormRequest
             'balcony_count.min' => 'The balcony count must be at least 0.',
 
             'is_furnishing.required' => 'The furnishing field is required.',
-            'is_furnishing.boolean' => 'The furnishing field must be true or false.',
 
             'floor_count.required' => 'The floor count field is required.',
             'floor_count.integer' => 'The floor count must be an integer.',

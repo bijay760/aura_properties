@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\property\PropertyController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Content\AddCitiesController;
 use App\Http\Controllers\Content\GetProjectsController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Content\GetCitiesController;
 use App\Http\Controllers\Property\PostPropertyController;
 use App\Http\Controllers\Property\EditPropertyController;
 use App\Http\Controllers\Property\GetMyPropertyController;
+use App\Http\Controllers\PropertyListing\PropertyListingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -36,6 +38,8 @@ Route::middleware(['apiHash', 'sanitize'])->group(function ($router) {
     $router->post('add-locality', AddLocalitiesController::class);
     $router->post('add-project', AddProjectsController::class);
     $router->get('get-projects', GetProjectsController::class);
+
+    $router->get('property-list',PropertyListingController::class);
 
     Route::middleware('validated-user')->group(function ($router) {
         $router->get('profile', ProfileController::class);

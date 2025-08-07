@@ -11,4 +11,5 @@ interface PropertiesInterface
     public function postProperty(Request $request):array;
     public function getProperty(Request $request):array;
     public function editProperty(Request $request):array;
+    public function property_listing(Request $request):array;
 }
