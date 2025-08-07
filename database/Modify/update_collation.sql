@@ -21,4 +21,6 @@ ALTER TABLE `properties`
     MODIFY COLUMN `gallery_images` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '[]' CHECK (json_valid(`gallery_images`));
 
 ALTER TABLE properties add column update_at timestamp after created_at;
+alter table cities add column city_image varchar(255) after name;
+alter table properties add column rating bigint default 0 after views_count;
 

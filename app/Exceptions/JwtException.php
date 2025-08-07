@@ -3,30 +3,32 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class JwtException extends Exception
 {
-    /**
-     * Create a new exception instance.
-     *
-     * @return void
-     */
-    public function __construct($message, $code)
+    protected $message;
+    protected $code;
+
+    public function __construct($message = "Unauthorized", $code = 401)
     {
         parent::__construct($message, $code);
+        $this->message = $message;
+        $this->code = $code;
     }
 
     /**
-     * Get the underlying response instance.
+     * Render the exception into an HTTP response.
      *
-     * @return \Symfony\Component\HttpFoundation\Response|null
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getResponse()
+    public function render($request): JsonResponse
     {
-        $code = $this->code;
-        $status = false;
-        $data = [];
-        $message = $this->message;
-        return response()->json(compact('code', 'status', 'data', 'message'), $this->code);
+        return response()->json([
+            'status' => false,
+            'code' => $this->code,
+            'message' => $this->message,
+            'data' => [],
+        ], $this->code);
     }
 }

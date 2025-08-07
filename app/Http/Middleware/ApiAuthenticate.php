@@ -41,7 +41,10 @@ class ApiAuthenticate
 
             $sql = 'SELECT `USER_SESSION`(:json) AS result';
             $user_session = wdb($sql, $params);
+
             if ($user_session['status'] == false) {
+                throw new JwtException("Token invalid or expired", 401);
+            }  if ($user_session['data'] == null) {
                 throw new JwtException("Token invalid or expired", 401);
             }
 

@@ -103,7 +103,7 @@ class PostPropertyRequest extends FormRequest
         ];
 
         // Add conditional rules for non-plot properties
-        if (!in_array($this->input('property_category_id'), [5, 6, 7, 11, 12, 13, 14])) {
+        if (!in_array($this->input('property_category_id'), [5, 6, 7, 11, 12, 13, 14,10])) {
             $rules = array_merge($rules, [
                 'bedrooms_count' => 'required|integer|min:0',
                 'bathrooms_count' => 'required|integer|min:0',

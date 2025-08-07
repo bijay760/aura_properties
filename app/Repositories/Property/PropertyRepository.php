@@ -2147,7 +2147,6 @@ class PropertyRepository implements PropertiesInterface
             $type = 'buy';
         }
 
-
         $price_range_min = $request->price_range_min ?? 0;
         $price_range_max = $request->price_range_max ?? 0;
         $number_of_bedrooms = $request->number_of_bedrooms ?? 0;
@@ -2157,6 +2156,8 @@ class PropertyRepository implements PropertiesInterface
         $furnishing_status = $request->furnishing_status ?? null;
         $page = $request->page ?? 1;
         $limit = $request->limit ?? 10;
+        $city=$request->city ?? null;
+        $locality=$request->locality ?? null;
         $query = DB::table('properties')->where('status', 'active');
         $total = (clone $query)->count();
         $query->offset(($page - 1) * $limit)
@@ -2181,15 +2182,24 @@ class PropertyRepository implements PropertiesInterface
         if ($number_of_bedrooms > 0) {
             $query->where('bedrooms_count', '=', $number_of_bedrooms);
         }
-
+        if(!empty($city)){
+            $query->where('city', 'like', '%'.$city.'%');
+        }
+        if(!empty($locality)){
+            $query->where('locality', 'like', '%'.$locality.'%');
+        }
         if (!empty($property_type)) {
             $query->where('property_category_id', $property_type);
         }
         if ($furnishing_status >= 0 && $furnishing_status != null) {
             $query->where('is_furnishing', $furnishing_status);
         }
+
         $properties = $query->get()->map(function ($property) {
             switch ($property->property_category_id) {
+                case 4:
+                case 7:
+                case 6:
                 case 1:
                     return [
                         'listing_type' => $property->listing_type,
@@ -2225,7 +2235,363 @@ class PropertyRepository implements PropertiesInterface
                         'status' => 'active',
                         'created_at' => $property->created_at
                     ];
-                default:
+                case 2:
+                return [
+                    'listing_type' => $property->listing_type,
+                    'property_category_id' => $property->property_category_id,
+                    'covered_area' => $property->covered_area,
+                    'carpet_area' => $property->carpet_area,
+                    'total_price' => $property->total_price,
+                    'is_price_negotiable' => $property->is_price_negotiable,
+                    'city' => $property->city,
+                    'locality' => $property->locality,
+                    'project_name' => $property->project_name,
+                    'address' => $property->address,
+                    'total_numbers' => $property->total_numbers,
+                    'bedrooms_count' => $property->bedrooms_count,
+                    'bathroom_count' => $property->bathroom_count,
+                    'balcony_count' => $property->balcony_count,
+                    'is_furnishing' => $property->is_furnishing,
+                    'floor_count' => $property->floor_count,
+                    'total_floors' => $property->total_floors,
+                    'additional_rooms' => json_decode($property->additional_rooms),
+                    'overlooking' => json_decode($property->overlooking),
+                    'directional_facing' => $property->directional_facing,
+                    'ownership_type' => $property->ownership_type,
+                    'more_property_details' => $property->more_property_details,
+                    'number_of_open_side' => $property->number_of_open_side,
+                    'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                    'transaction_type' => $property->transaction_type,
+                    'availability_status' => $property->availability_status,
+                    'possession' => $property->possession,
+                    'approved_by_bank' => $property->approved_by_bank,
+                    'amenities' => json_decode($property->amenities),
+                    'gallery_images' => json_decode($property->gallery_images),
+                    'flooring_type' => $property->flooring_type,
+                    'landmark' => $property->landmark,
+                    'status' => 'active',
+                    'created_at' => $property->created_at
+                ];
+                case 3:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'project_name' => $property->project_name,
+                        'address' => $property->address,
+                        'total_numbers' => $property->total_numbers,
+                        'bedrooms_count' => $property->bedrooms_count,
+                        'bathroom_count' => $property->bathroom_count,
+                        'balcony_count' => $property->balcony_count,
+                        'is_furnishing' => $property->is_furnishing,
+                        'floor_count' => $property->floor_count,
+                        'total_floors' => $property->total_floors,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'number_of_open_side' => $property->number_of_open_side,
+                        'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                        'floor_allowed_for_construction' => $property->floor_allowed_for_construction,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+
+                case 5:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'project_name' => $property->project_name,
+                        'address' => $property->address,
+                        'total_numbers' => $property->total_numbers,
+                        'floor_allowed_for_construction' => $property->floor_allowed_for_construction,
+                        'boundary_wall_made' => $property->boundary_wall_made,
+                        'number_of_open_side' => $property->number_of_open_side,
+                        'any_construction_done' => $property->any_construction_done,
+                        'is_colony_have_gate' => $property->is_colony_have_gate,
+                        'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+                case 8:
+                case 9:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'project_name' => $property->project_name,
+                        'address' => $property->address,
+                        'total_numbers' => $property->total_numbers,
+                        'bedrooms_count' => $property->bedrooms_count,
+                        'bathroom_count' => $property->bathroom_count,
+                        'balcony_count' => $property->balcony_count,
+                        'is_furnishing' => $property->is_furnishing,
+                        'floor_count' => $property->floor_count,
+                        'total_floors' => $property->total_floors,
+                        'pantry_cafeteria' => $property->pantry_cafeteria,
+                        'personal_washroom' => $property->personal_washroom,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+                case 10:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'address' => $property->address,
+                        'project_name' => $property->project_name,
+                        'total_numbers' => $property->total_numbers,
+                        'bedrooms_count' => $property->bedrooms_count,
+                        'bathroom_count' => $property->bathroom_count,
+                        'balcony_count' => $property->balcony_count,
+                        'is_furnishing' => $property->is_furnishing,
+                        'floor_count' => $property->floor_count,
+                        'total_floors' => $property->total_floors,
+                        'pantry_cafeteria' => $property->pantry_cafeteria,
+                        'personal_washroom' => $property->personal_washroom,
+                        'is_main_road_facing' => $property->is_main_road_facing,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+                case 11:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'address' => $property->address,
+                        'project_name' => $property->project_name,
+                        'total_numbers' => $property->total_numbers,
+                        'near_by_business' => $property->near_by_business,
+                        'floor_allowed_for_construction' => $property->floor_allowed_for_construction,
+                        'number_of_open_side' => $property->number_of_open_side,
+                        'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                        'boundary_wall_made' => $property->boundary_wall_made,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+
+                case 12:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'address' => $property->address,
+                        'project_name' => $property->project_name,
+                        'total_numbers' => $property->total_numbers,
+                        'near_by_business' => $property->near_by_business,
+                        'floor_allowed_for_construction' => $property->floor_allowed_for_construction,
+                        'number_of_open_side' => $property->number_of_open_side,
+                        'any_construction_done' => $property->any_construction_done,
+                        'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                        'boundary_wall_made' => $property->boundary_wall_made,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+                case 13:
+                    return[
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'address' => $property->address,
+                        'project_name' => $property->project_name,
+                        'total_numbers' => $property->total_numbers,
+                        'total_floors' => $property->total_floors,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at
+                    ];
+
+                case 14:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'address' => $property->address,
+                        'project_name' => $property->project_name,
+                        'total_numbers' => $property->total_numbers,
+                        'boundary_wall_made' => $property->boundary_wall_made,
+                        'number_of_open_side' => $property->number_of_open_side,
+                        'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at,
+
+                    ];
+                case 15:
+                    return [
+                        'listing_type' => $property->listing_type,
+                        'property_category_id' => $property->property_category_id,
+                        'covered_area' => $property->covered_area,
+                        'carpet_area' => $property->carpet_area,
+                        'total_price' => $property->total_price,
+                        'is_price_negotiable' => $property->is_price_negotiable,
+                        'city' => $property->city,
+                        'locality' => $property->locality,
+                        'address' => $property->address,
+                        'project_name' => $property->project_name,
+                        'total_numbers' => $property->total_numbers,
+                        'bedrooms_count' => $property->bedrooms_count,
+                        'bathroom_count' => $property->bathroom_count,
+                        'balcony_count' => $property->balcony_count,
+                        'is_furnishing' => $property->is_furnishing,
+                        'number_of_open_side' => $property->number_of_open_side,
+                        'width_of_road_facing_plot' => $property->width_of_road_facing_plot,
+                        'additional_rooms' => json_decode($property->additional_rooms),
+                        'overlooking' => json_decode($property->overlooking),
+                        'directional_facing' => $property->directional_facing,
+                        'ownership_type' => $property->ownership_type,
+                        'more_property_details' => $property->more_property_details,
+                        'transaction_type' => $property->transaction_type,
+                        'availability_status' => $property->availability_status,
+                        'possession' => $property->possession,
+                        'approved_by_bank' => $property->approved_by_bank,
+                        'amenities' => json_decode($property->amenities),
+                        'gallery_images' => json_decode($property->gallery_images),
+                        'flooring_type' => $property->flooring_type,
+                        'landmark' => $property->landmark,
+                        'status' => 'active',
+                        'created_at' => $property->created_at,
+                    ];
+                default :
                     return [
                         'property_category_id' => $property->property_category_id,
                         'remaining' => 'in progress',
@@ -2243,7 +2609,5 @@ class PropertyRepository implements PropertiesInterface
                 'total_pages' => (int)$totalPages,
                 'total_items' => (int)$total],
         ];
-
-
     }
 }
