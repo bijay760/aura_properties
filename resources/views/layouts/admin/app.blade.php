@@ -3,7 +3,8 @@
 @include('layouts.admin.head')
 <body >
             @include('layouts.admin.sidebar')
-              
-                        @yield('content')
+
+                  {{-- @yield('content') --}}
+           
             
     </div>
