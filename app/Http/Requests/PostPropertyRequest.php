@@ -113,11 +113,8 @@ class PostPropertyRequest extends FormRequest
                 'total_floors' => 'integer|min:0',
             ]);
         }
-
-
         return $rules;
     }
-
     public function messages()
     {
         return [
